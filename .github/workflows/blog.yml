@@ -23,8 +23,9 @@ jobs:
         deploy_key: ${{ secrets.DEPLOY_KEY }}
         user_name: Abingcbc
         user_email: 19990626.love@163.com
-        commit_msg: ${{ github.event.head_commit.message }}  # (or delete this input setting to use hexo default settings)
-    # Use the output from the `deploy` step(use for test action)
+        commit_msg: ${{ github.event.head_commit.message }} 
+    - name: Set Custom Domain Name
+      run: echo blog.abingcbc.cn > CNAME
     - name: Get the output
       run: |
         echo "${{ steps.deploy.outputs.notify }}"
