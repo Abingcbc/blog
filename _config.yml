@@ -107,4 +107,3 @@ deploy:
   repo:
     github: git@github.com:Abingcbc/blog.git
   branch: master
-  local-dir: public
