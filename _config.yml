@@ -105,6 +105,6 @@ theme: flexy
 deploy:
   type: git
   repo:
-    github: git@github.com:Abingcbc/Abingcbc.git
+    github: git@github.com:Abingcbc/blog.git
   branch: master
   local-dir: public
