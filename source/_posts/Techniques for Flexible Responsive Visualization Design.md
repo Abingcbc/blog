@@ -1,5 +1,5 @@
 ---
-title: [Introduction] Techniques for Flexible Responsive Visualization Design
+title: \[Introduction\] Techniques for Flexible Responsive Visualization Design
 categories:
 - Paper
 tags:
