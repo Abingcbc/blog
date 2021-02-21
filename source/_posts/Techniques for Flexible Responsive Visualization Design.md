@@ -1,11 +1,12 @@
 ---
-title: \&#91;Introduction\&#93; Techniques for Flexible Responsive Visualization Design
+title: "[Introduction] Techniques for Flexible Responsive Visualization Design"
 categories:
 - Paper
 tags:
 - Visualization
 ---
 
-On Construction
+## 目的
+搭建了一个原型系统。用户
 
 
