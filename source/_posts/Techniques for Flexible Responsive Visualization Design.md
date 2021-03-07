@@ -1,5 +1,6 @@
 ---
 title: "[Introduction] Techniques for Flexible Responsive Visualization Design"
+date: 2021-03-07 23:59:22
 categories:
 - Paper
 tags:
