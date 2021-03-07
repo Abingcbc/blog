@@ -11,7 +11,7 @@ tags:
 服务注册中心的地址为 http://localhost:8888，Zuul 网关地址为 http://localhost:8080， 另外搭建一个服务名为 metadata-service 的服务，地址为 http://localhost:8088。
 ## 问题
 在 metadata-service 中提供一个测试的接口
-```
+```Java
 @RestController
 public class MetadataController {
 ​
@@ -23,7 +23,7 @@ public class MetadataController {
 ```
 使用 Postman 进行测试，结果发现直接请求 http://localhost:8088/test 即 metadata-service 的地址，可以正常得到结果
 
-![image.png](http://abingcbc.cn/upload/2020/11/image-6e98596e41d345a8b97812dadde43364.png)
+![](1.jpg)
 
 而通过网关，使用 Zuul 默认路由规则，调用服务，会出现 404 的错误
 
