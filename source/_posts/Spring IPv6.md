@@ -23,7 +23,7 @@ public class MetadataController {
 ```
 使用 Postman 进行测试，结果发现直接请求 http://localhost:8088/test 即 metadata-service 的地址，可以正常得到结果
 
-![](1.jpg)
+![](/asset/spring_ipv6/1.jpg)
 
 而通过网关，使用 Zuul 默认路由规则，调用服务，会出现 404 的错误
 
