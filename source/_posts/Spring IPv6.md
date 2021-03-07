@@ -27,38 +27,40 @@ public class MetadataController {
 
 而通过网关，使用 Zuul 默认路由规则，调用服务，会出现 404 的错误
 
-![image.png](http://abingcbc.cn/upload/2020/11/image-4ccf1286faf64ec9b4e5227f4533b6e7.png)
+![](/asset/spring_ipv6/2.jpg)
 
 ## 分析
 首先，我们可以先通过 http://localhost:8888 查看服务是否注册到了服务注册中心
 
-![image.png](http://abingcbc.cn/upload/2020/11/image-c391f7a9c88a4ac2bc19acc097670d1b.png)
+![](/asset/spring_ipv6/3.jpg)
 
 可以看到没有任何问题。
 那么，我们再检查网关有没有获取到 metadata-service 的路由。可以通过 http://localhost:8080/actuator/routes 查看（actuator默认是关闭的，可以通过配置 management.endpoints.web.exposure.include=* 开启）。
 
-![image.png](http://abingcbc.cn/upload/2020/11/image-9d8b158e5da143d9b07bd93dae3a101f.png)
+![](/asset/spring_ipv6/4.jpg)
 
 同样，我们可以看到没有任何问题。
 那么，就很奇怪了🤨，服务本身没有任何问题，直接调用也可以访问，而通过网关一转发，为什么就 404 了呢？在网上查了一下午，也没有找到有人遇到过类似的问题。。。😱
 问题的关键在我关闭服务后再次请求 http://localhost:8088/test 时终于找到了。正常情况下，关闭了服务后，应该没有返回的 response，但发出请求过后仍然是 404
 
-![image.png](http://abingcbc.cn/upload/2020/11/image-733cec76ad874b00a34c6e9dafb5294b.png)
+![](/asset/spring_ipv6/5.jpg)
 
 那么，就很明显了，有另一个进程也在监听 8088 端口 ！！！
 但还是很奇怪，那为什么服务启动的时候没有报端口被占用的错误呢？？？
 重新启动服务，使用 lsof -i tcp:8088 （Mac OS）查看端口占用情况
 
-![image.png](http://abingcbc.cn/upload/2020/11/image-759ec8d9c1c7406bb1a8cd0062a62eef.png)
+![](/asset/spring_ipv6/6.jpg)
 
 果然有两个进程同时在监听，而一个是 IPv4，一个是 IPv6的。
 首先，根据这篇文章 https://blog.csdn.net/jiyiqinlovexx/article/details/50959351 的解释，多个进程是完全可以同时监听同一个端口的。
 而从 Java 7 开始，默认使用 IPv6 而不是 IPv4 （https://stackoverflow.com/questions/35470838/localhost-vs-127-0-0-1-in-spring-framework），所以对于 Spring 的 localhost 来说，其实真正使用的 IP 地址是 ::1，而不是 127.0.0.1 。使用 Postman 进行测试，可以发现 http://[::1]:8088/test 得到正常结果，而 http://127.0.0.1:8088/test 则为 404 。这就完美地解释了开启服务与停止服务，返回结果不同的问题，Spring 服务所对应的正是那个 IPv6 的进程。
 那么，为什么网关转发就到了 IPv4 呢？我们再来看一下服务注册中心里的信息
 
-![image.png](http://abingcbc.cn/upload/2020/11/image-89b237e90f954edd9a4476cb87042376.png)
+![](/asset/spring_ipv6/7.jpg)
 
 可以看到其实 Eureka 保存的是每个服务的 IP 地址是本机的 IPv4 的内网地址，而不是保存域名，这就是问题的关键。我们可以使用 Postman 发送请求  http://localhost:8080/metadata-service/test 后，使用命令 lsof -i tcp:8088 进行验证。
+
+![](/asset/spring_ipv6/8.jpg)
 
 可以看到的确是向内网 IP 地址，而不是向 localhost 转发请求。
 ## 解决方案
