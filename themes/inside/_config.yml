@@ -137,7 +137,7 @@ footer:
 
   # Custom text.
   custom: <span id="busuanzi_container_site_pv">
-    PV:&nbsp;<span id="busuanzi_value_site_pv"></span>&nbsp;times&nbsp;&nbsp;|&nbsp;
+    PV:&nbsp;<span id="busuanzi_value_site_pv"></span>&nbsp;times<br></br>
     </span><span id="busuanzi_container_site_uv">
     UV:&nbsp;<span id="busuanzi_value_site_uv"></span>&nbsp;times
     </span>
