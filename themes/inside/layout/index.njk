@@ -14,6 +14,7 @@
 {%- endif %}
 {{ open_graph({ image: page.thumbnail if page.thumbnail else theme.profile.avatar }) }}
 {{ structured_data(page) if theme.seo.structured_data -}}
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 {% if config.feed and config.feed.path -%}
 <link rel="alternate" type="application/atom+xml" title="{{ config.title }}" href="{{ url_for(config.feed.path) }}">
 {%- endif %}
