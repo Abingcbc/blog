@@ -6,7 +6,7 @@ categories:
 tags:
 - Kubernetes
 ---
-## What
+## 概念
 Cronjob 是 K8s 定时通过 cronjob controller 定时去创建 Job 实现的。
 创建 Cronjob 的一个例子：
 ```yaml
@@ -31,15 +31,14 @@ spec:
           restartPolicy: OnFailure
 ```
 
-## How
-Cronjob controller 工作原理
+## Cronjob controller 工作原理
 startingDeadlineSeconds 是一个很重要的参数，其配置了一个周期创建job时，多长时间算作失败。
 1. Controller 每10秒轮询一次 cronjob
 2. 对于每个 cronjob，计算从上次被调度 lastScheduleTime 到现在错过了多少次调度。如果大于100次，则将其状态置为 FailedNeedsStart
 3. 对于其他 cronjob 计算当前是否还在其 lastScheduleTime + startingDeadlineSeconds 内，如果在，则进行调度。如果不在，则发送一条 event
 "Missed starting window for {cronjob name}. Missed scheduled time to start a job {scheduledTime}"
 
-Tips：
+## Tips
 1. 时间
 因为 Cronjob 实际上是通过 controller 去管理的，所以其时间是 kube-controller-manager 的时间。
 2. 命名
