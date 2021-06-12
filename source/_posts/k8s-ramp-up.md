@@ -9,6 +9,7 @@ tags:
 ## 目标
 - 介绍 K8s，Docker 概念以及原理
 - 从 0 开始部署一个简单完整的服务
+<!-- more -->
 
 ## Docker是什么？
 Docker是由Google推出的Go语言进行开发实现，基于Linux内核的 <font color=red>namespace</font>，对<font color=red>进程</font>进行封装<font color=red>隔离</font>，属于操作系统层面的容器化技术。

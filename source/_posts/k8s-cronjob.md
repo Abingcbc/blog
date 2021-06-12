@@ -6,6 +6,10 @@ categories:
 tags:
 - Kubernetes
 ---
+本文主要介绍下 K8s 的 CronJob，还有其中的一些小坑。
+
+<!-- more -->
+
 ## 概念
 Cronjob 是 K8s 定时通过 cronjob controller 定时去创建 Job 实现的。
 创建 Cronjob 的一个例子：
