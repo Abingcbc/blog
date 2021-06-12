@@ -12,7 +12,7 @@ TiDB Lightning 是一个将数据导入到 TiDB 中的工具，使用 Go 编写�
 ![](/asset/tidb-lightning/1.png)
 
 本文从代码的角度，带领大家走过一个数据导入的过程，所以只关注一些逻辑上重要的步骤，而一些其他的细节可能不会涉及到。
-
+<!-- more -->
 首先，进入 main 函数，程序调用了两个主要的启动函数：`GoServer` 和 `RunServer`。
 
 ## GoServer
