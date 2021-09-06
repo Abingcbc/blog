@@ -64,36 +64,36 @@ a: alignment，利用 DTW 可将长度为 i 的 v 和长度为 j 的 s 对齐成
 
 对于 DTW alignment，下面这张图形象地解释了整个对齐的过程
 
-![](/assets/time2graph/dtw.png)
+![](/asset/time2graph/dtw.png)
 
 对于序列 s1 和 s2，s1 中的一个点可能对应 s2 中的多个点，同时 s2 中的一个点也可能对应 s1 中的多个点。所以，两者对齐后，会得到一个新的长度的序列。而 shapelet 与 segment 的距离，其实就是计算两者对齐后的欧氏距离。
 
 2. shapelet 与 time series 之间的距离
 
-![](/assets/time2graph/dist_series.png)
+![](/asset/time2graph/dist_series.png)
 
 这个就比较简单了，`d` 即为刚刚介绍的 shapelet 与 segment 之间的距离。shapelet 与 time series 的距离即为与 time series 的所有分段中的权重最小值。
 
 ### Shapelet Evolution Graph
 接下来，就是要构建图来表示 shapelet 之间的转移关系。
 
-![](/assets/time2graph/graph.png)
+![](/asset/time2graph/graph.png)
 
 算法先将 shapelet 与 segment 关联起来，edge 的权重由以下这个公式计算
 
-![](/assets/time2graph/edge_weight.png)
+![](/asset/time2graph/edge_weight.png)
 
 公式计算的是 shapelet 与 segment 相关的概率，如果 shapelet 与 segment 之间的距离越近，那么相关的概率越高。
 
 接下来，算法将相邻的 segment 的 shapelet 连接起来，而 edge 的权重则是前后两个 segment 与各自 shapelet 之间关联概率的乘积，代表了从前一个 shapelet 迁移到后一个 shapelet 的概率。
 
-![](/assets/time2graph/transition.png)
+![](/asset/time2graph/transition.png)
 
 最后，算法将一个 shapelet 所有迁移出去的 edge 的权重进行归一化，使其和为 1。
 
 算法的伪代码如下所示
 
-![](/assets/time2graph/graph_algo.png)
+![](/asset/time2graph/graph_algo.png)
 
 ### Representation Learning
 最后，time2graph 采用了 DeepWalk [<sup>3</sup>](#deepwalk)的算法，将 shapelet 转换为 embedding 的形式。
@@ -102,13 +102,13 @@ a: alignment，利用 DTW 可将长度为 i 的 v 和长度为 j 的 s 对齐成
 
 segment 的向量化表示如下面这个公式，就是其相关 shapelet 的 embedding 的概率权重和
 
-![](/assets/time2graph/segment.png)
+![](/asset/time2graph/segment.png)
 
 而 time series 的向量化表示就是将其所有 segment 的 embedding 的拼接。
 
 算法的伪代码如下所示
 
-![](/assets/time2graph/representation.png)
+![](/asset/time2graph/representation.png)
 
 ### Apply Time2graph
 至此，我们就完整的了解了 time2graph 的训练过程。那么 time2graph 的应用过程也与之类似。
