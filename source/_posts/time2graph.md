@@ -39,7 +39,7 @@ Time-aware shapelet 的抽取可以分为以下三个步骤
 Time2graph 设计了两个需要训练的参数，local factor **w** 和 global factor **u** 来分别衡量 shapelet 内部每个元素的重要度以及 shapelet 在不同时间段上的重要度。
 
 训练的过程需要进行梯度下降，损失函数如下图所示
-![](/assets/time2graph/loss_function.png)
+![](/asset/time2graph/loss_function.png)
 
 ```
 v: shapelet
@@ -53,7 +53,7 @@ g: differentiable function measures the distances between distributions of two f
 
 1. shapelet 与 segment 之间的距离
 
-![](/assets/time2graph/dist_seg.png)
+![](/asset/time2graph/dist_seg.png)
 
 ```
 w: local factor 需要学习的参数
