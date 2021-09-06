@@ -97,7 +97,7 @@ profile:
 menu:
   Home: /
   About: /about
-  Photos: /photos
+  Photos: https://abingcbc.github.io/photo-gallery
   Github: https://github.com/abingcbc
 
 # Social media URL
