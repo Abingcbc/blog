@@ -9,9 +9,7 @@ title: ABOUT
 
     https://www.alibabacloud.com/zh/product/dataphin
 
-2. 字节跳动 AML, 上海, 2020.9 -, 研发实习生
+2. 字节跳动 AML, 上海, 2020.9 - 2021.7, 研发实习生
 
     https://github.com/bytedance/fedlearner
 
-## 兴趣
-分布式系统，云原生，机器学习
