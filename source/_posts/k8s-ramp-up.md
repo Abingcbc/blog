@@ -1,8 +1,8 @@
 ---
-title: "[Tutorial] Kubernetes Ramp Up"
+title: "[Introduction] Kubernetes Ramp Up"
 date: 2021-03-15 15:39:36
 categories:
-- Cloud
+- Introduction
 tags:
 - Kubernetes
 ---

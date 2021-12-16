@@ -2,7 +2,7 @@
 title: "[Introduction] Kubernetes CronJob"
 date: 2021-03-08 00:06:14
 categories:
-- Cloud
+- Introduction
 tags:
 - Kubernetes
 ---

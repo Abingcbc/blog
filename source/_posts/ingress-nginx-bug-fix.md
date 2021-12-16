@@ -1,8 +1,8 @@
 ---
-title: "[BugFix] Kubernetes Ingress Nginx DNS报错日志 Bug Fix"
+title: "[BugFix] Kubernetes Ingress Nginx DNS 报错日志 Bug Fix"
 date: 2021-03-13 12:27:49
 categories:
-- Cloud
+- BugFix
 tags:
 - Kubernetes
 ---

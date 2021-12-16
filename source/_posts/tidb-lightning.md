@@ -2,7 +2,7 @@
 title: "[CodeRead] TiDB Lightning"
 date: 2021-03-19 18:48:44
 categories:
-- DB
+- CodeRead
 tags:
 - TiDB
 ---

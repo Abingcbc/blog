@@ -2,7 +2,7 @@
 title: "[PaperRead] Time2graph: Revisiting time series modeling with dynamic shapelets"
 date: 2021-09-06 18:39:53
 categories:
-- Data Exploration
+- PaperRead
 tags:
 - Time Series
 ---
