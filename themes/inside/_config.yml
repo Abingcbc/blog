@@ -28,10 +28,10 @@ appearance:
   font:
     # Url of font css file
     # Below is a font set containing Baloo Bhaijaan, Josefin Sans, Montserrat and Inconsolata from Google Fonts.
-    url: //fonts.googleapis.com/css?family=Lato|Merriweather
+    url: //fonts.googleapis.com/css?family=Lato|Merriweather|Montserrat|Noto+Serif+SC:wght@300
 
     # Base font which applied to body
-    base: "'Merriweather', 'PingFang SC'"
+    base: "'Merriweather', 'Noto Serif SC'"
     # Sidebar author font, fallback to `base`
     logo:
     # Sidebar menu font, fallback to `base`
@@ -48,7 +48,7 @@ appearance:
     # Headline(h1, h2, h3, h4, h5, h6) font, fallback to `base`
     heading:
     # Code and code block
-    code: Inconsolata, monospace
+    code: 
     # Base font for printing which applied to body
     print:
 
