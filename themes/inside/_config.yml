@@ -98,19 +98,21 @@ menu:
   Home: /
   About: /about
   Photos: https://abingcbc.github.io/photo-gallery
-  Github: https://github.com/abingcbc
 
 # Social media URL
 sns:
   # Built-in icons
   # `email`, `feed`, `github`, `twitter`, `facebook`, `instagram`, `tumblr`, `dribbble`, `telegram`
   # `youtube`, `hangouts`, `linkedin`, `pinterest`, `soundcloud`, `myspace`, `weibo`, `qq
+  - icon: github
+    title: Github
+    url: https://github.com/Abingcbc
   - icon: email
     title: Email
     url: # default to `profile.email`
-  - icon: feed
-    title: Feed
-    url: # default to `hexo.config.feed.path`
+  # - icon: feed
+  #   title: Feed
+  #   url: # default to `hexo.config.feed.path`
   - icon: linkedin
     title: linkedin
     url: https://www.linkedin.com/in/%E6%9F%84%E7%95%85-%E9%99%88-8b3812183/
