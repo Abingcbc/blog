@@ -390,8 +390,8 @@ pwa:
 
 # Plugins
 plugins:
-  - //imsun.github.io/gitment/style/default.css
-  - //imsun.github.io/gitment/dist/gitment.browser.js
+  - https://www.wenjunjiang.win/css/gitment.css
+  - https://www.wenjunjiang.win/js/gitment.js
   - position: comments
     template: |
       <div id="gitment"></div>
