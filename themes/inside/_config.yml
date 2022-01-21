@@ -390,8 +390,8 @@ pwa:
 
 # Plugins
 plugins:
-  - https://www.wenjunjiang.win/css/gitment.css
-  - https://www.wenjunjiang.win/js/gitment.js
+  - https://billts.site/extra_css/gitment.css
+  - https://billts.site/js/gitment.js
   - position: comments
     template: |
       <div id="gitment"></div>
