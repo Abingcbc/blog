@@ -390,27 +390,25 @@ pwa:
 
 # Plugins
 plugins:
-  - https://billts.site/extra_css/gitment.css
-  - https://billts.site/js/gitment.js
+  - https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css
+  - https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js
   - position: comments
     template: |
-      <div id="gitment"></div>
+      <div id="gitalk"></div>
       <script>
-        if (!window.__gitment) window.__gitment = new Gitment({
+        if (!window.__gitalk) window.__gitalk = new Gitalk({
           owner: 'abingcbc',
           repo: 'blog-comments',
-          oauth: {
-            client_id: '225e0f79fd64ca42f501',
-            client_secret: 'e89fabf7e34f6646cf659179f7cd7943da170ce4',
-          },
+          client_id: '225e0f79fd64ca42f501',
+          client_secret: 'e89fabf7e34f6646cf659179f7cd7943da170ce4',
         });
-        Object.assign(__gitment, {
+        Object.assign(__gitalk, {
           id: decodeURIComponent(location.pathname),
           title: document.title,
           link: location.href,
         });
-        __gitment.update();
-        __gitment.render('gitment');
+        __gitalk.update();
+        __gitalk.render('gitalk');
       </script>
 #   # Built-in plugins
 #   - cipher
