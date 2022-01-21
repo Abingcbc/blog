@@ -407,7 +407,6 @@ plugins:
           title: document.title,
           link: location.href,
         });
-        __gitalk.update();
         __gitalk.render('gitalk');
       </script>
 #   # Built-in plugins
