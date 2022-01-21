@@ -389,7 +389,29 @@ pwa:
   #       type: image/png
 
 # Plugins
-# plugins:
+plugins:
+  - //imsun.github.io/gitment/style/default.css
+  - //imsun.github.io/gitment/dist/gitment.browser.js
+  - position: comments
+    template: |
+      <div id="gitment"></div>
+      <script>
+        if (!window.__gitment) window.__gitment = new Gitment({
+          owner: 'abingcbc',
+          repo: 'blog-comments',
+          oauth: {
+            client_id: '225e0f79fd64ca42f501',
+            client_secret: 'e89fabf7e34f6646cf659179f7cd7943da170ce4',
+          },
+        });
+        Object.assign(__gitment, {
+          id: decodeURIComponent(location.pathname),
+          title: document.title,
+          link: location.href,
+        });
+        __gitment.update();
+        __gitment.render('gitment');
+      </script>
 #   # Built-in plugins
 #   - cipher
 #   - cipher:
