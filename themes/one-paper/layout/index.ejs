@@ -3,9 +3,7 @@
         <% var currentYear = null; %>
         <% page.posts.each(function (post) { %>
             <% if (date(post.date, "YYYY") !== currentYear) { %>
-                <li>
-                    <h2><%= date(post.date, "YYYY") %></h2>
-                </li>
+                <h2><%= date(post.date, "YYYY") %></h2>
                 <% currentYear = date(post.date, "YYYY")%>
             <% } %>
             <li>

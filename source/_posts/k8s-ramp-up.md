@@ -43,8 +43,7 @@ Linux 的命名空间从内核层面上进行了虚拟化，对所有的全局�
 
 每次在执行 `docker start` 或 `docker run` 的时候，其实是由 docker 的 daemon 进程 docker containerd，调用 Linux 系统调用 `clone()` 去创建新的进程。而创建进程的过程中就为新创建的进程分配了新的 Linux 命名空间。可以简单阅读一下 docker 的开源代码
 
-<pre><code class="go">
-// https://github.com/moby/moby/blob/49e809fbfe250f3df2deacc0c3e5c403db3b8915/daemon/start.go#L17
+<pre><code class="go">// https://github.com/moby/moby/blob/49e809fbfe250f3df2deacc0c3e5c403db3b8915/daemon/start.go#L17
 // 创建容器的函数，其中又调用了设置
 func (daemon *Daemon) ContainerStart(name string, hostConfig *containertypes.HostConfig, checkpoint string, checkpointDir string) error
 
