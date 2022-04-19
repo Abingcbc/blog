@@ -2,9 +2,13 @@
 title: ABOUT
 ---
 
+![https://github.com/Abingcbc](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)
+![mailto:abingcbc626@gmail.com](https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white)
+![https://www.linkedin.com/in/bingchang-chen-8b3812183/](https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white)
+
 本科就读于同济大学软件学院，目前硕士就读于同济大学设计与创意学院人工智能与数据设计专业 IDvX 实验室 https://idvxlab.com/。
 
-## 实习经历
+#### 实习经历
 1. 阿里巴巴数据中台, 杭州, 2020.6 - 2020.8, Java开发实习生
 
     https://www.alibabacloud.com/zh/product/dataphin
