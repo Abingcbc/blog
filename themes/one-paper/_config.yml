@@ -1,4 +1,5 @@
 menu:
-  首页: /
-  归档: /archives
-  关于: /about
+  Home: /
+  Archives: /archives
+  Photos: https://abingcbc.github.io/photo-gallery/
+  About: /about
