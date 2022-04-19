@@ -2,9 +2,9 @@
     <ul class="archive">
         <% var currentYear = null; %>
         <% page.posts.each(function (post) { %>
-            <% if (date(post.data, "YYYY") != currentYear) { %>
-                <h2><%= date(post.data, "YYYY") %></h2>
-                <% currentYear = date(post.data, "YYYY")%>
+            <% if (date(post.date, "YYYY") != currentYear) { %>
+                <h2><%= date(post.date, "YYYY") %></h2>
+                <% currentYear = date(post.date, "YYYY")%>
               <% } %>
             <li>
                 <span class="archive-date"><%= date(post.date, "YYYY.MM.DD") %></span>
