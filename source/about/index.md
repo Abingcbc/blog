@@ -2,9 +2,7 @@
 title: ABOUT
 ---
 
-![https://github.com/Abingcbc](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)
-![mailto:abingcbc626@gmail.com](https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white)
-![https://www.linkedin.com/in/bingchang-chen-8b3812183/](https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white)
+[![https://github.com/Abingcbc](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Abingcbc) [![mailto:abingcbc626@gmail.com](https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:abingcbc626@gmail.com) [![https://www.linkedin.com/in/bingchang-chen-8b3812183/](https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/bingchang-chen-8b3812183/)
 
 本科就读于同济大学软件学院，目前硕士就读于同济大学设计与创意学院人工智能与数据设计专业 IDvX 实验室 https://idvxlab.com/。
 
