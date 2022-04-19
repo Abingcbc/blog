@@ -9,8 +9,6 @@ tags:
 ## 问题
 目前，当指定访问集群外部地址为 IP 时，ingress-nginx controller 的日志中存在大量的 DNS 报错的垃圾日志。虽然不影响正常运行（猜测可能会导致性能波动，对比见最后），但是查看 Nginx 日志 debug 时效率严重降低。
 
-<!-- more -->
-
 ![](/asset/ingress-nginx-bug-fix/error.png)
 
 ## 原因

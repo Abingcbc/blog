@@ -1,13 +1,19 @@
-<div class="post-list">
-    <% page.posts.each(function (post) { %>
-    <div class="post">
-        <a class="post-title" href="<%- url_for(post.path) %>"><%= post.title %></a>
-        <div class="post-except">
-            <%- strip_html(post.content).substr(0, 240) %>
-            <a class="read-more" href="<%- url_for(post.path) %>"> ... </a>
-        </div>
-        <div class="post-date"><%- date(post.date, "YYYY.MM.DD") %></div>
-    </div>
-    <% }) %>
+<div class="archive-list">
+    <ul class="archive">
+        <% var currentYear = null; %>
+        <% page.posts.each(function (post) { %>
+            <% if (date(post.data, "YYYY") != currentYear) { %>
+                <h2><%= date(post.data, "YYYY") %></h2>
+                <% currentYear = date(post.data, "YYYY")%>
+              <% } %>
+            <li>
+                <span class="archive-date"><%= date(post.date, "YYYY.MM.DD") %></span>
+                <div class="archive-main">
+                    <a class="archive-title" href="<%- url_for(post.path) %>"><%= post.title %></a>
+                    <!-- <a class="read-more" href="<%- url_for(post.path) %>"> ... </a> -->
+                </div>
+            </li>
+        <% }) %>
+    </ul>
 </div>
 <%- partial('_partial/paginator') %>
