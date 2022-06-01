@@ -2,11 +2,12 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport" />
     <link rel="alternate icon" type="image/png" href="<%- url_for('/img/favicon.png') %>">
-    <% if (is_post() || is_page()) { %>
+    <title><%= page.title %></title>
+    <!-- <% if (is_post() || is_page()) { %>
         <title><%= page.title %></title>
     <% } else { %>
         <title><%= config.title %> | <%= config.subtitle %></title>
-    <% } %>
+    <% } %> -->
     <%- css('css/reset.css') %>
     <%- css('css/style.css') %>
     <%- css('css/markdown.css') %>
