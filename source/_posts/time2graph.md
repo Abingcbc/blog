@@ -119,8 +119,8 @@ segment 的向量化表示如下面这个公式，就是其相关 shapelet 的 e
 <div id="shapelet" />
 - [1] Ye, Lexiang, and Eamonn Keogh. "Time series shapelets: a new primitive for data mining." Proceedings of the 15th ACM SIGKDD international conference on Knowledge discovery and data mining. 2009.
 
-<div id="time2graph">
+<div id="time2graph" />
 - [2] Cheng, Ziqiang, et al. "Time2graph: Revisiting time series modeling with dynamic shapelets." Proceedings of the AAAI Conference on Artificial Intelligence. Vol. 34. No. 04. 2020.
 
-<div id="deepwalk">
+<div id="deepwalk" />
 - [3] Perozzi, Bryan, Rami Al-Rfou, and Steven Skiena. "Deepwalk: Online learning of social representations." Proceedings of the 20th ACM SIGKDD international conference on Knowledge discovery and data mining. 2014.
