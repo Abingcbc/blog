@@ -1,9 +1,8 @@
 ---
-title: "[Introduction] Casbin Ramp Up"
+title: "[Introduction] Casbin is All You Need —— 访问控制框架 Casbin Ramp Up"
 date: 2022-06-22 01:05:51
 tags:
 ---
-# Casbin is All You Need —— 访问控制框架 Casbin Ramp Up
 
 ## TL;DR
 
