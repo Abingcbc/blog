@@ -10,8 +10,13 @@ tags:
 - 以一个 RBAC 的简单例子介绍 Casbin 的用法
 
 ## Casbin是什么？
+### 访问控制
 
-访问控制，顾名思义，是指判断一条请求是否可以访问受保护的资源的技术。Casbin [<sup>1</sup>](#casbin) 就是一个强大的、高效的开源访问控制框架。Casbin 在 Github 上已获得超过 10k+ star，并且有着非常完整的生态。基于 Casbin 可以轻松的实现一系列访问控制模型，如 RBAC，ABAC等等。
+![](/asset/casbin-ramp-up/2022-06-23-17-50-00-image.png)
+
+访问控制，顾名思义，是指判断一条请求是否可以访问受保护的资源的技术。在上图的例子中，我们的后台中有两个资源，Resource1和Resource2。它们可以是服务器、账号、图片、视频等等等等。但是，它们的相同特性是不能被所有用户都访问。比如 Resource1 属于用户 Alice，那么只有 Alice 能够访问它，Bob 则不能。因此，我们就需要对访问请求进行过滤，判断其是否被允许到达目标资源。在上面的例子中，Alice 发起了两个访问请求，分别想要访问 Resource1 和 Resource2。访问控制层需要做的工作就是允许访问 Resource1 的请求通过，而阻拦想要访问 Resource2 的请求，因为 Resource2 属于 Bob，Alice 是无法访问的。
+
+在实际应用中，访问控制问题往往会随着业务而变得非常复杂。而 Casbin [<sup>1</sup>](#casbin) 就是一个强大的、高效的开源访问控制框架。Casbin 在 Github 上已获得超过 10k+ star，并且有着非常完整的生态。基于 Casbin 可以轻松的实现一系列访问控制模型，如 RBAC，ABAC等等。
 
 ### 原理——PML
 
