@@ -87,7 +87,7 @@ PERM 模型主要包含了 6 个主要的概念：
 
 ## Usage
 
-在了解了 Casbin 的原理和结构后，我们可以开始利用 Casbin 来进行一些实践。本章以 RBAC 模型为例，构建一个简单的访问控制示例。
+在了解了 Casbin 的原理和结构后，我们可以开始利用 Casbin 来进行一些实践。本章以 RBAC 模型为例，构建一个简单的访问控制示例。RBAC (Role-Based Access Control) 模型是基于角色的访问控制模型。在 RBAC 的模型中，用户和资源之间存在着角色（Role），用户可以属于一个或多个角色，角色拥有权限去访问资源。
 
 经过前两章的介绍，我们可以将访问控制分为三个部分：Static，Dynamic 和 User-specific Logic。在使用 Casbin 时，也可以这样进行划分。首先，我们先来定义一个静态的 RBAC Model（model.conf）。
 
