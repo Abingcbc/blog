@@ -17,17 +17,6 @@ title: ABOUT
 
 <img src="https://blog.abingcbc.cn/asset/gzh.jpeg" alt="https://blog.abingcbc.cn/asset/gzh.jpeg" style="width:300px;margin:0 auto">
 
-#### Experience
-1. 阿里巴巴数据中台, 杭州, 2020.6 - 2020.8, Java开发实习生
-
-    https://www.alibabacloud.com/zh/product/dataphin
-
-2. 字节跳动 AML, 上海, 2020.9 - 2021.7, 研发实习生
-
-    https://github.com/bytedance/fedlearner
-
-更多信息见  [<img src="https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&amp;logo=linkedin&amp;logoColor=white" alt="https://www.linkedin.com/in/bingchang-chen-8b3812183/" style="display:inline">](https://www.linkedin.com/in/bingchang-chen-8b3812183/)
-
 #### Misc
 
 - ISFP 懒狗
