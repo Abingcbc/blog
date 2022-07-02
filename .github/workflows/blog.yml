@@ -21,6 +21,8 @@ jobs:
         USER_EMAIL: 19990626.love@163.com
         BRANCH: gh-pages
         GIT_REPO: git@github.com:Abingcbc/blog.git
+        BAIDU_TOKEN: ${{ secrets.BAIDU_TOKEN }}
+        BING_TOKEN: ${{ secrets.BING_TOKEN }}
         steps:
     - name: Ping Google
       run: curl https://www.google.com/ping?sitemap=https://blog.abingcbc.cn/sitemap.xml

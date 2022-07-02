@@ -1,10 +1,7 @@
 ---
 title: "[Introduction] Kubernetes CronJob"
 date: 2021-03-08 00:06:14
-categories:
-- Introduction
-tags:
-- Kubernetes
+updated: 2021-03-08 00:06:14
 ---
 本文主要介绍下 K8s 的 CronJob，还有其中的一些小坑。
 

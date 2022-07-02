@@ -1,10 +1,7 @@
 ---
 title: "[CodeRead] TiDB Lightning"
 date: 2021-03-19 18:48:44
-categories:
-- CodeRead
-tags:
-- TiDB
+updated: 2021-03-19 18:48:44
 ---
 
 TiDB Lightning 是一个将数据导入到 TiDB 中的工具，使用 Go 编写。支持 `Local`, `Importer`, `TiDB` 三种导入模式。在 TiDB 的官网中，对其[原理]()有着详细的介绍。

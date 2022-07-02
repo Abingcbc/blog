@@ -1,10 +1,7 @@
 ---
 title: "[Introduction] Kubernetes Ramp Up"
 date: 2021-03-15 15:39:36
-categories:
-- Introduction
-tags:
-- Kubernetes
+updated: 2021-03-15 15:39:36
 ---
 ## 目标
 - 介绍 K8s，Docker 概念以及原理
