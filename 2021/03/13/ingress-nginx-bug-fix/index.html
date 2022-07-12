@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport" />
+    <meta name="google-site-verification" content="O8l6Gdlm_7wLcePiA_vmgbeJoEon6vWqVfNFEdF35Vk" />
+    <meta name="baidu-site-verification" content="code-Mg16qTh6pa" />
+    <link rel="alternate icon" type="image/png" href="/img/favicon.png">
+    <title>[BugFix] Kubernetes Ingress Nginx DNS 报错日志 Bug Fix</title>
+    <!-- 
+        <title>[BugFix] Kubernetes Ingress Nginx DNS 报错日志 Bug Fix</title>
+     -->
+    
+<link rel="stylesheet" href="/css/reset.css">
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+<link rel="stylesheet" href="/css/markdown.css">
+
+    
+<link rel="stylesheet" href="/css/fonts.css">
+
+    <script async defer data-website-id="e0d038ef-ec21-43e8-8170-a40528b7f0f6" src="https://abingcbc.cn:5100/analysis.js"></script>
+<meta name="generator" content="Hexo 5.4.2"></head>
+    <body>
+        <div class="paper">
+            <div class="paper-main">
+                
+                    <div class="post-header">
+    <a class="logo" href="/">Bingchang Chen</a>
+    <a class="go-home" href="/">
+        <svg width="8" height="14" viewBox="0 0 8 14">
+            <path d="M7 1L1 7l6 6" stroke="#000" stroke-width="2" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    </a>
+</div>
+                
+                <div class="post-main">
+
+    
+        <div class="post-main-title">
+            [BugFix] Kubernetes Ingress Nginx DNS 报错日志 Bug Fix
+        </div>
+        <div class="post-meta">
+            2021-03-13
+            &nbsp;&nbsp;
+            <span id="busuanzi_container_page_pv">
+                <i class="iconfont icon-eye" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>次
+            </span>
+        </div>
+    
+
+    <div class="post-md">
+        <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>目前，当指定访问集群外部地址为 IP 时，ingress-nginx controller 的日志中存在大量的 DNS 报错的垃圾日志。虽然不影响正常运行（猜测可能会导致性能波动，对比见最后），但是查看 Nginx 日志 debug 时效率严重降低。</p>
+<p><img src="/asset/ingress-nginx-bug-fix/error.png"></p>
+<h2 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h2><p>详细的讨论见：<br><a target="_blank" rel="noopener" href="https://github.com/coredns/coredns/issues/2324">https://github.com/coredns/coredns/issues/2324</a></p>
+<p>简略总结下，导致访问外部 IP，Nginx 报 DNS 解析错误的原因在于 Kubernetes 自身的bug，缺少了一个验证。</p>
+<p>出现问题的情况是通过 ExternalName 类型的 Service 访问外部服务的。定义的 yaml 类似于下面这种：</p>
+<pre><code class="yaml">kind: Service
+apiVersion: v1
+metadata:
+  name: demo2
+  namespace: default
+spec:
+  type: ExternalName
+  externalName: xxx.xxx.xxx.xxx
+</code></pre>
+<p>对于 Kubernetes 的设计来说，ExternalName 就是一个域名。K8s 官方是这样介绍的 </p>
+<blockquote>
+<p>ExternalName: Maps the service to the contents of the externalName field (e.g. foo.bar.example.com), by returning aCNAMErecord with its value. No proxying of any kind is set up.</p>
+</blockquote>
+<blockquote>
+<p>Note:ExternalName accepts an IPv4 address string, but as a DNS names comprised of digits, not as an IP address. ExternalNames that resemble IPv4 addresses are not resolved by CoreDNS or ingress-nginx because ExternalName is intended to specify a canonical DNS name.</p>
+</blockquote>
+<p>从实现上来看，ExternalName 类型的 Service 其实就是在 CoreDNS 里的一条 CNAME 记录。 CNAME 是一条域名指向另一个域名的记录，在 K8s 中，这条 record 记载的就是 Service 名字指向 ExtenalName 的一个映射。</p>
+<p>但是，当 ExternalName 类型的 Service 中设定的是 IP 时，K8s 并没有对其进行判断，仍然允许其正常创建。</p>
+<p>同时，Nginx 本身存在着一个轮询机制，会不断的向 DNS 服务拉取记录进行缓存。<br><a target="_blank" rel="noopener" href="https://github.com/kubernetes/ingress-nginx/blob/master/rootfs/etc/nginx/lua/util/dns.lua">https://github.com/kubernetes/ingress-nginx/blob/master/rootfs/etc/nginx/lua/util/dns.lua</a></p>
+<p>在每次拉取缓存时会发生以下的过程：</p>
+<ol>
+<li>Nginx 从 CoreDNS 拉取到了一个 CNAME 记录，例如：demo2 -&gt; xxx.xxx.xxx.xxx</li>
+<li>接着，Nginx 尝试解析 xxx.xxx.xxx.xxx 这个域名，CoreDNS 自然是对这个长成 IP 样子的域名解析不出来的，于是解析失败，导致报错</li>
+</ol>
+<hr>
+<p>至于为什么 DNS 解析失败之后，Nginx 仍然能够成功转发请求，原因是 ingress-nginx controller 在实现上并没有对这个进行区分。</p>
+<p>首先，先简单介绍下 controller 的原理。Ingress-nginx controller 一直监听着 k8s 系统中的 ingress 资源。当有新的 ingress 创建时，controller 会开始更新 Nginx 的配置文件，向其中添加转发规则，并重启 Nginx。</p>
+<p>下面是 controller 解析指向 ExternalName 的 ingress，然后创建 upstream 的逻辑<br><a target="_blank" rel="noopener" href="https://github.com/kubernetes/ingress-nginx/blob/5f1a37a624ca38e8cccc87cb7a36d7dbcbe70b01/internal/ingress/controller/endpoints.go#L52">https://github.com/kubernetes/ingress-nginx/blob/5f1a37a624ca38e8cccc87cb7a36d7dbcbe70b01/internal/ingress/controller/endpoints.go#L52</a></p>
+<p><img src="/asset/ingress-nginx-bug-fix/nginx-code.png"></p>
+<p>可以看到，controller 是没有强制解析 ExternalName 成域名的，所以写进 nginx.conf 的 upstream 也是 ip 形式，这样 nginx 会自然地将 ExternalName 解析成 IP，从而可以正常工作。</p>
+<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><p>在上面提到的 Github Issue 的讨论中，有大佬已经给出了解决方法，就是通过 Service without selectors 的方式。<br><a target="_blank" rel="noopener" href="https://kubernetes.io/docs/concepts/services-networking/service/#services-without-selectors">https://kubernetes.io/docs/concepts/services-networking/service/#services-without-selectors</a></p>
+<p>常见的 K8s Service 都是通过标签选择器，选择一系列 Pod 作为后端，K8s endpoint controller 会自动根据 Service 的声明去为 Service 的每个端口创建一个 endpoint。Endpoint 是 K8s 中实际进行服务路由的资源。</p>
+<p>而创建 Service without selectors，就需要我们手动去创建一个与 Service 同名的 endpoint。这样就不需要指定 Service 为 ExternalName 的类型，CoreDNS 中就会将其视作一条 A 记录，而不是一条 CNAME 记录。Nginx 拉取 DNS 缓存时也不会把 IP 当做域名了。</p>
+<pre><code class="yaml">apiVersion: v1
+kind: Service
+metadata:
+  name: demo2
+  namespace: default
+spec:
+  clusterIP: None
+  ports:
+  - name: grpc
+    port: 32443
+    protocol: TCP
+---
+kind: Endpoints
+apiVersion: v1
+metadata:
+  name: demo2
+  namespace: default
+subsets:
+  - addresses:
+      - ip: xxx.xxx.xxx.xxx
+    ports:
+      - port: 32443
+        name: grpc
+        protocol: TCP
+</code></pre>
+<h2 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h2><p>在两个对等的集群发生通信时，demo1 修复，demo2不修复，对比两侧的 CPU 使用情况</p>
+<p>demo1：<br><img src="/asset/ingress-nginx-bug-fix/demo1.png"></p>
+<p>demo2：<br><img src="/asset/ingress-nginx-bug-fix/demo2.png"></p>
+<p>demo2 大约比 demo1 消耗 CPU 多 0.020 个核。虽然这个报错会稍微增加一点 CPU 的使用量，但并不多。</p>
+
+    </div>
+
+    
+        <div id="gitalk" style="width: 100%"></div>
+    
+
+</div>
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script>
+    if (document.getElementById("gitalk")) {
+        if (!window.__gitalk) window.__gitalk = new Gitalk({
+            owner: 'abingcbc',
+            repo: 'blog-comments',
+            clientID: '225e0f79fd64ca42f501',
+            clientSecret: 'e89fabf7e34f6646cf659179f7cd7943da170ce4',
+            admin: ['abingcbc'],
+            id: location.pathname
+        });
+        Object.assign(__gitalk, {
+            id: decodeURIComponent(location.pathname),
+            title: document.title,
+            link: location.href,
+        });
+        __gitalk.render('gitalk');
+    }
+</script>
+                <div class="footer">
+    <span>Copyright © 2022 Bingchang Chen</span>
+    <span>Theme Designed By <a target="_blank" href="https://zheli.design/one-paper">這Li</a></span>
+    <span id="busuanzi_container_site_pv">
+        Total views:&nbsp;<span id="busuanzi_value_site_pv"></span>&nbsp;times<br>
+    </span>
+    <span id="busuanzi_container_site_uv">
+        Total visitors:&nbsp;<span id="busuanzi_value_site_uv"></span>&nbsp;times
+    </span>
+</div>
+
+
+<link rel="stylesheet" href="/css/a11y-dark.min.css">
+
+
+<script src="/js/highlight.min.js"></script>
+
+
+<script src="/js/highlightjs-line-numbers.js"></script>
+
+<script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+<script>
+    hljs.highlightAll();
+    hljs.initLineNumbersOnLoad();
+</script>
+
+            </div>
+        </div>
+    </body>
+</html>

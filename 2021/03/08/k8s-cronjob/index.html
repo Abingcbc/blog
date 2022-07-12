@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport" />
+    <meta name="google-site-verification" content="O8l6Gdlm_7wLcePiA_vmgbeJoEon6vWqVfNFEdF35Vk" />
+    <meta name="baidu-site-verification" content="code-Mg16qTh6pa" />
+    <link rel="alternate icon" type="image/png" href="/img/favicon.png">
+    <title>[Introduction] Kubernetes CronJob</title>
+    <!-- 
+        <title>[Introduction] Kubernetes CronJob</title>
+     -->
+    
+<link rel="stylesheet" href="/css/reset.css">
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+<link rel="stylesheet" href="/css/markdown.css">
+
+    
+<link rel="stylesheet" href="/css/fonts.css">
+
+    <script async defer data-website-id="e0d038ef-ec21-43e8-8170-a40528b7f0f6" src="https://abingcbc.cn:5100/analysis.js"></script>
+<meta name="generator" content="Hexo 5.4.2"></head>
+    <body>
+        <div class="paper">
+            <div class="paper-main">
+                
+                    <div class="post-header">
+    <a class="logo" href="/">Bingchang Chen</a>
+    <a class="go-home" href="/">
+        <svg width="8" height="14" viewBox="0 0 8 14">
+            <path d="M7 1L1 7l6 6" stroke="#000" stroke-width="2" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    </a>
+</div>
+                
+                <div class="post-main">
+
+    
+        <div class="post-main-title">
+            [Introduction] Kubernetes CronJob
+        </div>
+        <div class="post-meta">
+            2021-03-08
+            &nbsp;&nbsp;
+            <span id="busuanzi_container_page_pv">
+                <i class="iconfont icon-eye" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>次
+            </span>
+        </div>
+    
+
+    <div class="post-md">
+        <p>本文主要介绍下 K8s 的 CronJob，还有其中的一些小坑。</p>
+<h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>Cronjob 是 K8s 定时通过 cronjob controller 定时去创建 Job 实现的。<br>创建 Cronjob 的一个例子：</p>
+<pre><code class="yaml">apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: hello
+spec:
+  schedule: &quot;*/1 * * * *&quot;
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: hello
+            image: busybox
+            imagePullPolicy: IfNotPresent
+            args:
+            - /bin/sh
+            - -c
+            - date; echo Hello from the Kubernetes cluster
+          restartPolicy: OnFailure
+</code></pre>
+<h2 id="Cronjob-controller-工作原理"><a href="#Cronjob-controller-工作原理" class="headerlink" title="Cronjob controller 工作原理"></a>Cronjob controller 工作原理</h2><p>startingDeadlineSeconds 是一个很重要的参数，其配置了一个周期创建job时，多长时间算作失败。</p>
+<ol>
+<li>Controller 每10秒轮询一次 cronjob</li>
+<li>对于每个 cronjob，计算从上次被调度 lastScheduleTime 到现在错过了多少次调度。如果大于100次，则将其状态置为 FailedNeedsStart</li>
+<li>对于其他 cronjob 计算当前是否还在其 lastScheduleTime + startingDeadlineSeconds 内，如果在，则进行调度。如果不在，则发送一条 event<br>“Missed starting window for {cronjob name}. Missed scheduled time to start a job {scheduledTime}”</li>
+</ol>
+<h2 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h2><ol>
+<li>时间<br>因为 Cronjob 实际上是通过 controller 去管理的，所以其时间是 kube-controller-manager 的时间。</li>
+<li>命名<br>Cronjob 的命名要遵循 DNS subdomain name，并且不能超过 52 个字符。因为 Cronjob Controller 会在其创建的 Job 后再拼接 11 个字符 （ K8s 对 Job 命名的限制是 63 个字符）</li>
+<li>幂等性<br>根据配置的重启和健康规则的不同，K8s 启动 Cronjob 时只能保证 about 一次，有时可能会启动多次，有时可能会没有启动，所以需要 cronjob 保证幂等性。<br>以下是 cronjob 可能会发生的两种异常情况：</li>
+<li>触发多次<br>concurrencyPolicy 配置为 Allow，并且 startingDeadlineSeconds 不设置或者设置为很大。这样，controller 在多次轮询中可能都会查看到 cronjob 符合再次运行的条件，从而创建多个 job。</li>
+<li>触发0次<br>concurrencyPolicy 配置为 Forbid，这样 controller 就会等到上一次cronjob结束之后才会进行下一次调度。</li>
+<li>自定义 Crontroller<br>从 kubernetes 1.20 开始支持</li>
+<li>删除运行成功的 Job<br>配置 <a target="_blank" rel="noopener" href="https://kubernetes.io/docs/tasks/job/automated-tasks-with-cron-jobs/">https://kubernetes.io/docs/tasks/job/automated-tasks-with-cron-jobs/</a><br>successfulJobsHistoryLimit: 0<br>failedJobsHistoryLimit: 0</li>
+</ol>
+
+    </div>
+
+    
+        <div id="gitalk" style="width: 100%"></div>
+    
+
+</div>
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script>
+    if (document.getElementById("gitalk")) {
+        if (!window.__gitalk) window.__gitalk = new Gitalk({
+            owner: 'abingcbc',
+            repo: 'blog-comments',
+            clientID: '225e0f79fd64ca42f501',
+            clientSecret: 'e89fabf7e34f6646cf659179f7cd7943da170ce4',
+            admin: ['abingcbc'],
+            id: location.pathname
+        });
+        Object.assign(__gitalk, {
+            id: decodeURIComponent(location.pathname),
+            title: document.title,
+            link: location.href,
+        });
+        __gitalk.render('gitalk');
+    }
+</script>
+                <div class="footer">
+    <span>Copyright © 2022 Bingchang Chen</span>
+    <span>Theme Designed By <a target="_blank" href="https://zheli.design/one-paper">這Li</a></span>
+    <span id="busuanzi_container_site_pv">
+        Total views:&nbsp;<span id="busuanzi_value_site_pv"></span>&nbsp;times<br>
+    </span>
+    <span id="busuanzi_container_site_uv">
+        Total visitors:&nbsp;<span id="busuanzi_value_site_uv"></span>&nbsp;times
+    </span>
+</div>
+
+
+<link rel="stylesheet" href="/css/a11y-dark.min.css">
+
+
+<script src="/js/highlight.min.js"></script>
+
+
+<script src="/js/highlightjs-line-numbers.js"></script>
+
+<script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+<script>
+    hljs.highlightAll();
+    hljs.initLineNumbersOnLoad();
+</script>
+
+            </div>
+        </div>
+    </body>
+</html>
