@@ -26,3 +26,4 @@ jobs:
         steps:
     - name: Ping Google
       run: curl https://www.google.com/ping?sitemap=https://blog.abingcbc.cn/sitemap.xml
+      

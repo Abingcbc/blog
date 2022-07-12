@@ -11,8 +11,6 @@ title: ABOUT
 
 本科就读于同济大学软件学院，目前硕士就读于同济大学设计与创意学院人工智能与数据设计专业 IDvX 实验室 https://idvxlab.com/。
 
-兴趣方向：可视分析系统，分布式系统，Cloud，Open Souce
-
 #### 公众号
 
 <img src="https://blog.abingcbc.cn/asset/gzh.jpeg" alt="https://blog.abingcbc.cn/asset/gzh.jpeg" style="width:300px;margin:0 auto">
