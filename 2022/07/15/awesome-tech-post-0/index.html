@@ -23,6 +23,7 @@
 <link rel="stylesheet" href="/css/fonts.css">
 
     <script async defer data-website-id="e0d038ef-ec21-43e8-8170-a40528b7f0f6" src="https://abingcbc.cn:5100/analysis.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css" rel="stylesheet" type="text/css">
 <meta name="generator" content="Hexo 5.4.2"></head>
     <body>
         <div class="paper">
@@ -72,7 +73,7 @@
 <h2 id="0-How-to-Monitor-Kubernetes-Operators-By-Distributed-Tracing"><a href="#0-How-to-Monitor-Kubernetes-Operators-By-Distributed-Tracing" class="headerlink" title="0. How to Monitor Kubernetes Operators By Distributed-Tracing?"></a>0. How to Monitor Kubernetes Operators By Distributed-Tracing?</h2><p>原文链接：<a target="_blank" rel="noopener" href="https://yue9944882.github.io/posts/how-to-monitor-kubernetes-operator-by-distributed-tracing/">https://yue9944882.github.io/posts/how-to-monitor-kubernetes-operator-by-distributed-tracing/</a></p>
 <p>在一个健全的系统中，应当对一条请求在完整生命周期中完成了哪些处理都进行监控追踪。随着现在大量的分布式应用和微服务的落地，一条请求可能跨越多个服务，甚至集群。对于这类请求的 tracing（追踪）问题就是 distributed tracing。Tracing 的整个流程可以被建模成一个树，其中每个节点是请求所经过的处理（根据监控的粒度，可以是一个服务，也可以是一个函数）。请求经过的每个处理被称作为 span。</p>
 <h3 id="异步问题"><a href="#异步问题" class="headerlink" title="异步问题"></a>异步问题</h3><p>在微服务中，一条请求 R 到达微服务1后，一般通过 HTTP 或 RPC，进一步请求到微服务2进行处理，再到微服务N。最后，沿着这一条链，进行反向的返回 response。显然，这是一个同步的过程，我们可以很清晰的看出 R 的处理流程，R 的 tracing 结果就是这条转发树。</p>
-<img title="" src="/asset/AwesomeTechPost0/fd608e89de2310c238ecd23ff7ddc39a5e2f6e85.png" alt="" data-align="center" width="764">
+<img title="" src="/asset/AwesomeTechPost0/2022-07-12-22-28-28-image.png" alt="" data-align="center" width="764">
 
 <p>然而，与微服务不同，k8s operator 采用了完全不同的协作模式。K8s operator 不会与其他 operator 直接进行交互，而是生成一个 Event（例如，创建一个 Pod），k8s 会将这个 Event 放入到一个队列中。所有的 operator 都不断地轮询，从这个队列中获取符合自己过滤条件的 Event。显然，这是一个异步的过程。一异步，问题就麻烦了：</p>
 <ol>
@@ -110,7 +111,7 @@
 </ol>
 <figure>
 <img title="" src="/asset/AwesomeTechPost0/0a98b72fdc1acab504726847f894f6f9df8a699e.png" alt="16477814091159-kubefed-karmada-api.png" data-align="center" width="497">
-<figcaption align = "center"><b>图片来自原文</b></figcaption>
+<figcaption align = "center">图片来自原文</figcaption>
 </figure>
 
 <p>对于任务调度来说，原文中也提到了“因为上下文的不足，集群联邦不需要也没有办法保证调度的全局最优解，而提供跨集群的部署和故障转移就已经可以满足常见的需求了”。</p>
