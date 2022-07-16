@@ -2,6 +2,7 @@
 title: Awesome Tech Post 第0期
 date: 2022-07-15 22:58:41
 updated: 2022-07-15 22:58:41
+math: true
 ---
 
 ![](/asset/AwesomeTechPost0/2022-06-30-00-00-42-image.png)
@@ -34,7 +35,7 @@ updated: 2022-07-15 22:58:41
 
 在微服务中，一条请求 R 到达微服务1后，一般通过 HTTP 或 RPC，进一步请求到微服务2进行处理，再到微服务N。最后，沿着这一条链，进行反向的返回 response。显然，这是一个同步的过程，我们可以很清晰的看出 R 的处理流程，R 的 tracing 结果就是这条转发树。
 
-<img title="" src="/asset/AwesomeTechPost0/fd608e89de2310c238ecd23ff7ddc39a5e2f6e85.png" alt="" data-align="center" width="764">
+<img title="" src="/asset/AwesomeTechPost0/2022-07-12-22-28-28-image.png" alt="" data-align="center" width="764">
 
 然而，与微服务不同，k8s operator 采用了完全不同的协作模式。K8s operator 不会与其他 operator 直接进行交互，而是生成一个 Event（例如，创建一个 Pod），k8s 会将这个 Event 放入到一个队列中。所有的 operator 都不断地轮询，从这个队列中获取符合自己过滤条件的 Event。显然，这是一个异步的过程。一异步，问题就麻烦了：
 
@@ -80,7 +81,7 @@ Kubernetes 目前最多可以支持管理 5000 个节点，对于超过 5000 个
 
 <figure>
 <img title="" src="/asset/AwesomeTechPost0/0a98b72fdc1acab504726847f894f6f9df8a699e.png" alt="16477814091159-kubefed-karmada-api.png" data-align="center" width="497">
-<figcaption align = "center"><b>图片来自原文</b></figcaption>
+<figcaption align = "center">图片来自原文</figcaption>
 </figure>
 
 对于任务调度来说，原文中也提到了“因为上下文的不足，集群联邦不需要也没有办法保证调度的全局最优解，而提供跨集群的部署和故障转移就已经可以满足常见的需求了”。
