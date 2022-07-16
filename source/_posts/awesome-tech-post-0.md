@@ -35,7 +35,9 @@ math: true
 
 在微服务中，一条请求 R 到达微服务1后，一般通过 HTTP 或 RPC，进一步请求到微服务2进行处理，再到微服务N。最后，沿着这一条链，进行反向的返回 response。显然，这是一个同步的过程，我们可以很清晰的看出 R 的处理流程，R 的 tracing 结果就是这条转发树。
 
+<p style="text-align: center">
 <img title="" src="/asset/AwesomeTechPost0/2022-07-12-22-28-28-image.png" alt="" data-align="center" width="764">
+</p>
 
 然而，与微服务不同，k8s operator 采用了完全不同的协作模式。K8s operator 不会与其他 operator 直接进行交互，而是生成一个 Event（例如，创建一个 Pod），k8s 会将这个 Event 放入到一个队列中。所有的 operator 都不断地轮询，从这个队列中获取符合自己过滤条件的 Event。显然，这是一个异步的过程。一异步，问题就麻烦了：
 
@@ -80,7 +82,9 @@ Kubernetes 目前最多可以支持管理 5000 个节点，对于超过 5000 个
 2. **Karmada** 是 Kubefed 项目的延续，其中的概念也几乎全盘继承自 Kubefed。稍有不同的是，Karmada 保留了原生资源，并将 Kubefed 中联邦资源的 Placement 和 Override 抽离了出来，作为两个新的自定义资源 PropagationPolicy 和 OverriderPolicy。
 
 <figure>
+<p style="text-align: center">
 <img title="" src="/asset/AwesomeTechPost0/0a98b72fdc1acab504726847f894f6f9df8a699e.png" alt="16477814091159-kubefed-karmada-api.png" data-align="center" width="497">
+</p>
 <figcaption align = "center">图片来自原文</figcaption>
 </figure>
 
@@ -94,13 +98,17 @@ Kubernetes 目前最多可以支持管理 5000 个节点，对于超过 5000 个
 
 简单来说，invalid action masking 就是在模型根据概率采样动作时，采用一个 mask 将 invalid action 的概率置为 0。文章中作者将 invalid action masking 建模成以下的函数 $inv_s$：
 
+<p style="text-align: center">
 <img title="" src="/asset/AwesomeTechPost0/2022-07-14-21-55-41-image.png" alt="" data-align="center" width="300">
+</p>
 
 $l(s)$ 是状态 $s$ 的 log 值。$inv_s$ 在两种情况下都是可微的，在常数 $M$ 时，梯度为0，因此，反向传播时不会更新模型有关 invalid action 相关的参数。
 
 policy 在采样时的概率为：
 
+<p style="text-align: center">
 <img title="" src="/asset/AwesomeTechPost0/2022-07-14-21-56-23-image.png" alt="" data-align="center" width="235">
+</p>
 
 文章中还通过量化的实验结果来验证 invalid action masking 的有效性，详情可以阅读原文。
 
@@ -118,17 +126,23 @@ policy 在采样时的概率为：
 
 2. 假设负样本均匀分布，我们也均匀随机采样。那么，采样的负样本 pairwise distance 符合如下的分布：
    
+   <p style="text-align: center">
    <img title="test" src="/asset/AwesomeTechPost0/fdad5d725c64c0b589b8d107e5e228d285497474.png" alt="" data-align="center" width="318">
+   </p>
    
    换句话说，在高维空间里，采样得到的负样本 pairwise distance 基本上都是大于 $\sqrt{2}$ 的。论文针对这个问题，提出的方法是 distance weighted sampling。以距离概率值的倒数 $q(d)^{-1}$ 作为样本采样的权重，这样在修正分布的 bias 的同时控制了 variance。
 
 3. Triplet loss 采用的是一种 hard negtive mining 的方法，也就是正负样本的区分是 hard 的。负样本的梯度通过如下的公式计算：
-   
+
+   <p style="text-align: center">
    <img src="/asset/AwesomeTechPost0/f5026649684b309b85e2f5880e0a84bfdd7c01de.png" title="" alt="v2-966f53117397f560a6395fef136ca5f8_1440w.png" data-align="center">
+   </p>
    
    梯度的方向取决于 $h_{an}$ ，即 anchor 样本与负样本的向量差。那么，如果差向量的绝对值特别小，并且这个负样本是异常值，那对模型的梯度会造成很大的影响。
    
+   <p style="text-align: center">
    <img src="/asset/AwesomeTechPost0/bd74f1ae5c04b74ee412affefedd54fceffb790d.png" title="" alt="v2-80e1c0da65e11100f88b6175857a79ba_1440w.png" data-align="center">
+   </p>
    
    上图中展示了随着 pairwise distance 的增加，各种 loss 中正负样本是如何变化的。蓝色实线是正样本，绿色虚线是负样本。对于图b，$D_{an}$ 越小，梯度值也越趋向于 0。根据 triplet loss 的计算公式，我们可以发现，这导致了模型趋向于这个点的梯度（正）会很大，但是远离这个点的梯度（负）很小。论文提出了 margin based loss 来解决这一问题，即图 d 中的 loss。在 $D_{an}$ 很小的时候，仍然保证了负样本的梯度为一个常数，这有点类似 ReLU 的思想。
 
