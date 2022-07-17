@@ -65,7 +65,7 @@ math: true
 
 对于 Type A 和 Type B 来说，请求到他们这里就结束了，所以他们是 leaf span。
 
-对于 Type C 和 Type D 来说，由于不能确定有没有其他 operator 在监听同一个资源，所以无法判断其是否是 leaf span。对于 Type C 可以肯定的是，在 operator 完成最后一次 write 的时候，他仍会收到一个 Event，并且会 drop 这个 Event。因此，我们可以确定这个 operator 上多次 span 的 parent/child 关系。而对于 Type D，无法收到修改资源的最后一次 write 的 Event，所以，我们只能建立 span 之间较弱的 link 关系。
+对于 Type C 和 Type D 来说，由于不能确定有没有其他 operator 在监听同一个资源，所以无法判断其是否是 leaf span。对于 Type C 可以肯定的是，在 operator 完成最后一次 write 的时候，他仍会收到一个 Event（因为它所修改的资源正是自己监听的资源），并且会 drop 这个 Event（这个 Event 是由自身修改产生的，无意义）。因此，我们可以确定这个 operator 上多次 span 的 parent/child 关系。而对于 Type D，无法收到修改资源的最后一次 write 的 Event，所以，我们只能建立这个 operator 上多次 span 之间较弱的 link 关系。
 
 对于 Type E 来说，这是最复杂但又是最常见的类型。Type E 其实是 Type C 和 Type D 的组合，所以对于 Type E 操作的每个资源，我们可以按照资源的类型，将 Type E 当前的 span 暂时转换成 Type C 或 Type D 来处理。
 
@@ -73,11 +73,11 @@ math: true
 
 原文链接：[https://draveness.me/kuberentes-federation/](https://draveness.me/kuberentes-federation/)
 
-Kubernetes 目前最多可以支持管理 5000 个节点，对于超过 5000 个节点的集群管理，就需要寻找其他方法对多个 K8s 集群进行管理。多集群其实不是一个新的概念，在很久之前，就在业界看到过 Mesos + K8s 的多集群管理方法。但是，多集群中的每个集群都相对独立，彼此之间没有联系，每个应用都是独立的运行在一个集群里的。而集群联邦则是在此基础上增加了两个重要的功能：跨集群的服务发现和跨集群的调度，使得一个多应用服务可以运行在多个集群上，进一步提升了服务的稳定性和可用性。
+Kubernetes 目前最多可以支持管理 5000 个节点，对于超过 5000 个节点的集群管理，就需要寻找其他方法对多个 K8s 集群进行管理。多集群其实不是一个新的概念，在很久之前，就在业界看到过 Mesos + K8s 的多集群管理方法。但是，多集群中的每个集群都相对独立，彼此之间没有联系，每个服务都是独立的运行在一个集群里的。而集群联邦则是在此基础上增加了两个重要的功能：跨集群的服务发现和跨集群的调度，使得一个多应用服务可以运行在多个集群上，进一步提升了服务的稳定性和可用性。
 
-原文中，作者以两个比较出名的集群联邦项目为例，介绍了目前集群联邦的方案：
+文章中，作者以两个比较出名的集群联邦项目为例，介绍了目前集群联邦的方案：
 
-1. **Kubefed** 将应用抽象成了 Template（资源信息）、Placement（所需部署的集群）和 Overrides（同步资源到集群时，需要覆写的属性）三个部分。Kubefed control panel 会为每个原生资源（e.g. Deployment）生成对应的联邦资源（e.g. FederatedDeployment）作为管理。在分发到下游集群时，再根据联邦资源生成具体的原生资源。
+1. **Kubefed** 会为每个原生资源（e.g. Deployment）生成对应的联邦资源（e.g. FederatedDeployment）作为管理。联邦资源中会包含 Template（资源信息）、Placement（所需部署的集群）和 Overrides（同步资源到集群时，需要覆写的属性）三个部分。在分发到下游集群时，Kubefed 再根据联邦资源生成具体的原生资源。
 
 2. **Karmada** 是 Kubefed 项目的延续，其中的概念也几乎全盘继承自 Kubefed。稍有不同的是，Karmada 保留了原生资源，并将 Kubefed 中联邦资源的 Placement 和 Override 抽离了出来，作为两个新的自定义资源 PropagationPolicy 和 OverriderPolicy。
 
@@ -88,7 +88,7 @@ Kubernetes 目前最多可以支持管理 5000 个节点，对于超过 5000 个
 <figcaption align = "center">图片来自原文</figcaption>
 </figure>
 
-对于任务调度来说，原文中也提到了“因为上下文的不足，集群联邦不需要也没有办法保证调度的全局最优解，而提供跨集群的部署和故障转移就已经可以满足常见的需求了”。
+对于任务调度来说，文章中提到了“因为上下文的不足，集群联邦不需要也没有办法保证调度的全局最优解，而提供跨集群的部署和故障转移就已经可以满足常见的需求了”。
 
 ## 2. A Closer Look at Invalid Action Masking in Policy Gradient Algorithms
 
@@ -130,7 +130,7 @@ policy 在采样时的概率为：
    <img title="test" src="/asset/AwesomeTechPost0/fdad5d725c64c0b589b8d107e5e228d285497474.png" alt="" data-align="center" width="318">
    </p>
    
-   换句话说，在高维空间里，采样得到的负样本 pairwise distance 基本上都是大于 $\sqrt{2}$ 的。论文针对这个问题，提出的方法是 distance weighted sampling。以距离概率值的倒数 $q(d)^{-1}$ 作为样本采样的权重，这样在修正分布的 bias 的同时控制了 variance。
+   换句话说，在高维空间里，采样得到的负样本 pairwise distance 基本上都是大于 $\sqrt{2}$ 的。论文针对这个问题，提出的方法是 distance weighted sampling。以距离概率值的倒数 $q(d)^{-1}$ 作为样本采样的权重，这样在修正样本距离分布的 bias 的同时控制了 variance。
 
 3. Triplet loss 采用的是一种 hard negtive mining 的方法，也就是正负样本的区分是 hard 的。负样本的梯度通过如下的公式计算：
 
