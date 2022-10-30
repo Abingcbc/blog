@@ -59,11 +59,14 @@
     <div class="post-md">
         <p><img src="/asset/sealos-ramp-up/f6ce5cbedc6aa338007cd4633935ad371086271c.png" alt="title.png" /></p>
 <h2 id="sealos-是什么"><a class="markdownIt-Anchor" href="#sealos-是什么"></a> Sealos 是什么？</h2>
-<p>Kubernetes（K8s）发展至今，已经成为了一个及其复杂的系统。而作为云原生的基石，涌现了一大批辅助工具，帮助用户快速搭建 k8s 集群。而其中，<code>Sealos</code> 是做的最为极致的工具之一。接下来，让我们通过一个例子来看看 Sealos 的强大。</p>
+<p>Kubernetes（K8s）发展至今，已经成为了一个及其复杂的系统。而作为云原生的基石，涌现了一大批辅助工具，帮助用户快速搭建 k8s 集群。而其中，<a target="_blank" rel="noopener" href="https://github.com/labring/sealos">Sealos</a> 是做的最为极致的工具之一。接下来，让我们通过一个例子来看看 Sealos 的强大。</p>
 <h2 id="如何使用"><a class="markdownIt-Anchor" href="#如何使用"></a> 如何使用</h2>
 <p><img src="/asset/sealos-ramp-up/313c52bda7b27b5b64a479e488404bcef56b2669.png" alt="Frame 3.png" /></p>
 <p>假设我们想要在 192.168.0.100，192.168.0.101 和 192.168.0.102 这三台机器上部署一主两从的 K8s 集群，那么使用 Sealos 的话，主要输入以下的命令：</p>
-<pre class="highlight"><code class="shell">sudo sealos run labring/kubernetes:v1.24.0 labring/calico:v3.22.1 --masters 192.168.0.100 --nodes 192.168.0.101,192.168.0.102 --passwd xxx
+<pre class="highlight"><code class="shell">sudo sealos run labring/kubernetes:v1.24.0 labring/calico:v3.22.1 \
+    --masters 192.168.0.100 \
+    --nodes 192.168.0.101,192.168.0.102 \
+    --passwd xxx
 </code></pre>
 <p>是的，Sealos 将一个复杂的 K8s 的集群部署简化成了短短一行命令，将部署体验拉到了极致。甚至不需要过多的文档解释，仅凭这一行命令就可以满足大多数普通的部署场景。</p>
 <h2 id="原理"><a class="markdownIt-Anchor" href="#原理"></a> 原理</h2>
@@ -185,11 +188,11 @@
 </code></pre>
 <p>K8s 作为整个集群的基础，虽然最终镜像内的目录结构与其他一致，但其构建过程稍微有所不同。在 CI <a target="_blank" rel="noopener" href="https://github.com/labring/cluster-image/blob/faca63809e7a3eae512100a1eb8f9b7384973175/.github/scripts/kubernetes.sh#L35">https://github.com/labring/cluster-image/blob/faca63809e7a3eae512100a1eb8f9b7384973175/.github/scripts/kubernetes.sh#L35</a> 中，我们可以看到，k8s 镜像其实是合并了 cluster-image 仓库下的多个文件夹，<code>containerd</code>，<code>rootfs</code> 和 <code>registry</code>。这些独立的文件夹中包含有安装对应组件的脚本。</p>
 <p>Sealos 在挂载一个镜像后，会首先执行 <code>init.sh</code> 脚本。例如，以下是 k8s 镜像的脚本中，分别按顺序执行了 <code>init-containerd.sh</code> 安装 containerd，<code>init-shim.sh</code> 安装 image-cri-shim 和 <code>init-kube.sh</code> 安装 kubelet。</p>
-<pre class="highlight"><code class="shell">source common.sh
+<pre class="highlight"><code class="">source common.sh
 REGISTRY_DOMAIN=$&#123;1:-sealos.hub&#125;
 REGISTRY_PORT=$&#123;2:-5000&#125;
-<span class="hljs-meta prompt_">
-# </span><span class="language-bash">Install containerd</span>
+
+# Install containerd
 chmod a+x init-containerd.sh
 bash init-containerd.sh $&#123;REGISTRY_DOMAIN&#125; $&#123;REGISTRY_PORT&#125;
 
