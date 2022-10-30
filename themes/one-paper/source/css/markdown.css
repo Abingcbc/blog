@@ -154,7 +154,7 @@
     background: #fff;
 }
 
-.post-md code
+.post-md code:not(.hljs)
 {
     /* border-radius: 4px;
     background: #2b2b2b;
