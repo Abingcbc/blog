@@ -221,3 +221,5 @@ type CreateProcessor struct {
 ## 不仅仅如此...
 
 经过上文的介绍，可以看到 Sealos 本质上也可以认为是一个强大的 k8s 安装脚本。但未来的 Sealos 不仅仅如此，基于 Sealos 所开发的 sealos cloud 将会成为一个以 k8s 为内核的云操作系统，为更多应用的云原生之路带来更多便利。
+
+![](/asset/sealos-ramp-up/1ef54cfebd1c76bc8ecfd9897f9f127107b6e555.png)
