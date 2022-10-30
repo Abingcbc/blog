@@ -29,6 +29,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css" rel="stylesheet" type="text/css">
 <meta name="generator" content="Hexo 5.4.2"></head>
     <body>
+        <script type="text/javascript" src="/js/jquery-3.6.1.min.js"></script>
         <script type="text/javascript" src="/js/jquery.fancybox.min.js"></script>
         <script type="text/javascript" src="/js/wrapImage.js"></script>
         <div class="paper">
@@ -65,7 +66,7 @@
 <h2 id="如何使用"><a class="markdownIt-Anchor" href="#如何使用"></a> 如何使用</h2>
 <p><img src="/asset/sealos-ramp-up/313c52bda7b27b5b64a479e488404bcef56b2669.png" alt="Frame 3.png" /></p>
 <p>假设我们想要在 192.168.0.100，192.168.0.101 和 192.168.0.102 这三台机器上部署一主两从的 K8s 集群，那么使用 Sealos 的话，主要输入以下的命令：</p>
-<pre class="highlight"><code class="shell">sudo sealos run labring/kubernetes:v1.24.0 labring/calico:v3.22.1 \
+<pre class="highlight"><code class="">sudo sealos run labring/kubernetes:v1.24.0 labring/calico:v3.22.1 \
     --masters 192.168.0.100 \
     --nodes 192.168.0.101,192.168.0.102 \
     --passwd xxx
