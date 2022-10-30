@@ -9,7 +9,7 @@ updated: 2022-10-30 21:00:00
 
 ## Sealos 是什么？
 
-Kubernetes（K8s）发展至今，已经成为了一个及其复杂的系统。而作为云原生的基石，涌现了一大批辅助工具，帮助用户快速搭建 k8s 集群。而其中，`Sealos` 是做的最为极致的工具之一。接下来，让我们通过一个例子来看看 Sealos 的强大。
+Kubernetes（K8s）发展至今，已经成为了一个及其复杂的系统。而作为云原生的基石，涌现了一大批辅助工具，帮助用户快速搭建 k8s 集群。而其中，[Sealos](https://github.com/labring/sealos) 是做的最为极致的工具之一。接下来，让我们通过一个例子来看看 Sealos 的强大。
 
 ## 如何使用
 
@@ -18,7 +18,10 @@ Kubernetes（K8s）发展至今，已经成为了一个及其复杂的系统。�
 假设我们想要在 192.168.0.100，192.168.0.101 和 192.168.0.102 这三台机器上部署一主两从的 K8s 集群，那么使用 Sealos 的话，主要输入以下的命令：
 
 ```shell
-sudo sealos run labring/kubernetes:v1.24.0 labring/calico:v3.22.1 --masters 192.168.0.100 --nodes 192.168.0.101,192.168.0.102 --passwd xxx
+sudo sealos run labring/kubernetes:v1.24.0 labring/calico:v3.22.1 \
+    --masters 192.168.0.100 \
+    --nodes 192.168.0.101,192.168.0.102 \
+    --passwd xxx
 ```
 
 是的，Sealos 将一个复杂的 K8s 的集群部署简化成了短短一行命令，将部署体验拉到了极致。甚至不需要过多的文档解释，仅凭这一行命令就可以满足大多数普通的部署场景。
@@ -159,7 +162,7 @@ type CreateProcessor struct {
    
    Sealos 在挂载一个镜像后，会首先执行 `init.sh` 脚本。例如，以下是 k8s 镜像的脚本中，分别按顺序执行了 `init-containerd.sh` 安装 containerd，`init-shim.sh` 安装 image-cri-shim 和 `init-kube.sh` 安装 kubelet。
    
-   ```shell
+   ```
    source common.sh
    REGISTRY_DOMAIN=${1:-sealos.hub}
    REGISTRY_PORT=${2:-5000}
