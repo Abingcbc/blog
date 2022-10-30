@@ -21,6 +21,7 @@ function wrapImageWithFancyBox() {
         }
 
         $imageWrapLink.attr('data-fancybox', 'images');
+        $imageWrapLink.attr('class', 'scale-image')
         if (imageCaption) {
             $imageWrapLink.attr('data-caption', imageCaption);
         }
