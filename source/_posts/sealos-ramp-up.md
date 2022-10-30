@@ -1,5 +1,5 @@
 ---
-title: "[Introduction] Sealos is All You Need —— 3分钟部署 kubernetes "
+title: "Sealos is All You Need —— 3分钟部署 Kubernetes"
 math: true
 date: 2022-10-30 21:00:00
 updated: 2022-10-30 21:00:00
@@ -9,7 +9,7 @@ updated: 2022-10-30 21:00:00
 
 ## Sealos 是什么？
 
-Kubernetes（K8s）发展至今，已经成为了一个及其复杂的系统。而作为云原生的基石，涌现了一大批辅助工具，帮助用户快速搭建 k8s 集群。而其中，[Sealos](https://github.com/labring/sealos) 是做的最为极致的工具之一。接下来，让我们通过一个例子来看看 Sealos 的强大。
+Kubernetes（K8s）发展至今，已经成为了一个极其复杂的系统。而作为云原生的基石，涌现了一大批辅助工具，帮助用户快速搭建 k8s 集群。而其中，[Sealos](https://github.com/labring/sealos) 是做得最为极致的工具之一。接下来，让我们通过一个例子来看看 Sealos 的强大。
 
 ## 如何使用
 
