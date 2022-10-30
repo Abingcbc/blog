@@ -1,8 +1,7 @@
 ---
 title: ABOUT
 ---
-[<img src="https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&amp;logo=github&amp;logoColor=white" alt="https://github.com/Abingcbc" style="display:inline">](https://github.com/Abingcbc) [<img src="https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&amp;logo=gmail&amp;logoColor=white" alt="mailto:abingcbc626@gmail.com" style="display:inline">](mailto:abingcbc626@gmail.com) [<img src="https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&amp;logo=linkedin&amp;logoColor=white" alt="https://www.linkedin.com/in/bingchang-chen-8b3812183/" style="display:inline">](https://www.linkedin.com/in/bingchang-chen-8b3812183/) [<img src="https://img.shields.io/badge/zhihu-0078D4.svg?&style=for-the-badge" alt="https://img.shields.io/badge/zhihu-0078D4.svg?&style=for-the-badge" style="display:inline">](https://www.zhihu.com/people/llll-48-29)
-[<img src="https://img.shields.io/badge/Twitter-%231DA1F2.svg?style=for-the-badge&logo=Twitter&logoColor=white" alt="https://img.shields.io/badge/Twitter-%231DA1F2.svg?style=for-the-badge&logo=Twitter&logoColor=white" style="display:inline">](https://img.shields.io/badge/Twitter-%231DA1F2.svg?style=for-the-badge&logo=Twitter&logoColor=white)
+[<img src="https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&amp;logo=github&amp;logoColor=white" alt="https://github.com/Abingcbc" style="display:inline">](https://github.com/Abingcbc) [<img src="https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&amp;logo=gmail&amp;logoColor=white" alt="mailto:abingcbc626@gmail.com" style="display:inline">](mailto:abingcbc626@gmail.com) [<img src="https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&amp;logo=linkedin&amp;logoColor=white" alt="https://www.linkedin.com/in/bingchang-chen-8b3812183/" style="display:inline">](https://www.linkedin.com/in/bingchang-chen-8b3812183/) [<img src="https://img.shields.io/badge/zhihu-0078D4.svg?&style=for-the-badge" alt="https://img.shields.io/badge/zhihu-0078D4.svg?&style=for-the-badge" style="display:inline">](https://www.zhihu.com/people/llll-48-29)[<img src="https://img.shields.io/badge/Twitter-%231DA1F2.svg?style=for-the-badge&logo=Twitter&logoColor=white" alt="https://img.shields.io/badge/Twitter-%231DA1F2.svg?style=for-the-badge&logo=Twitter&logoColor=white" style="display:inline">](https://img.shields.io/badge/Twitter-%231DA1F2.svg?style=for-the-badge&logo=Twitter&logoColor=white)
 <hr>
 
 ### 正在寻找2023年暑期实习 ❤️
@@ -20,6 +19,7 @@ title: ABOUT
 
 - ISFP 懒狗
 - 尼康党
+- 原批
 - 轻度二次元 (巨人, 鬼灭, JoJo...)
 - 塞尔达YYDS
 
