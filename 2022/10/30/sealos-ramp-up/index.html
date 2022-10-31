@@ -62,7 +62,7 @@
     <div class="post-md">
         <p><img src="/asset/sealos-ramp-up/f6ce5cbedc6aa338007cd4633935ad371086271c.png" alt="title.png" /></p>
 <h2 id="sealos-是什么"><a class="markdownIt-Anchor" href="#sealos-是什么"></a> Sealos 是什么？</h2>
-<p>Kubernetes（K8s）发展至今，已经成为了一个极其复杂的系统。而作为云原生的基石，涌现了一大批辅助工具，帮助用户快速搭建 k8s 集群。而其中，<a target="_blank" rel="noopener" href="https://github.com/labring/sealos">Sealos</a> 是做得最为极致的工具之一。接下来，让我们通过一个例子来看看 Sealos 的强大。</p>
+<p>Kubernetes（K8s）发展至今，已经成为了一个极其复杂的系统。而作为云原生的基石，涌现了一大批辅助工具，帮助用户快速搭建 k8s 集群。而其中，<a target="_blank" rel="noopener" href="https://github.com/labring/sealos">sealos</a> 是一个以 kubernetes 为内核的云操作系统，kuberentes 生命周期管理是 sealos 的一个重要功能，sealos 可以非常方便的安装/升级/伸缩/备份恢复集群等。接下来，让我们通过一个例子来看看 sealos 的强大。</p>
 <h2 id="如何使用"><a class="markdownIt-Anchor" href="#如何使用"></a> 如何使用</h2>
 <p><img src="/asset/sealos-ramp-up/313c52bda7b27b5b64a479e488404bcef56b2669.png" alt="Frame 3.png" /></p>
 <p>假设我们想要在 192.168.0.100，192.168.0.101 和 192.168.0.102 这三台机器上部署一主两从的 K8s 集群，那么使用 Sealos 的话，主要输入以下的命令：</p>
@@ -259,7 +259,7 @@ logger &quot;init containerd rootfs success&quot;
 </li>
 </ol>
 <h2 id="不仅仅如此"><a class="markdownIt-Anchor" href="#不仅仅如此"></a> 不仅仅如此…</h2>
-<p>经过上文的介绍，可以看到 Sealos 本质上也可以认为是一个强大的 k8s 安装脚本。但未来的 Sealos 不仅仅如此，基于 Sealos 所开发的 sealos cloud 将会成为一个以 k8s 为内核的云操作系统，为更多应用的云原生之路带来更多便利。</p>
+<p>经过上文的介绍，可以看到 Sealos 对于 Kubernetes 生命周期管理有着非常好的抽象，而不只是个简单的安装脚本，你甚至可以扩展其它的 runtime 来支持 k3s k0s 等，而大部分定制化只需要修改集群镜像而不用修改 sealos 的源代码。不仅如此，sealos 还可以让你像使用 PC 操作系统一样用云，各种分布式软件信手拈来，真正让用云的门槛降到足够低。</p>
 <p><img src="/asset/sealos-ramp-up/1ef54cfebd1c76bc8ecfd9897f9f127107b6e555.png" alt="" /></p>
 
     </div>
