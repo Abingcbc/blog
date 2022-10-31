@@ -8,8 +8,7 @@ updated: 2022-10-30 21:00:00
 ![title.png](/asset/sealos-ramp-up/f6ce5cbedc6aa338007cd4633935ad371086271c.png)
 
 ## Sealos 是什么？
-
-Kubernetes（K8s）发展至今，已经成为了一个极其复杂的系统。而作为云原生的基石，涌现了一大批辅助工具，帮助用户快速搭建 k8s 集群。而其中，[Sealos](https://github.com/labring/sealos) 是做得最为极致的工具之一。接下来，让我们通过一个例子来看看 Sealos 的强大。
+Kubernetes（K8s）发展至今，已经成为了一个极其复杂的系统。而作为云原生的基石，涌现了一大批辅助工具，帮助用户快速搭建 k8s 集群。而其中，[sealos](https://github.com/labring/sealos) 是一个以 kubernetes 为内核的云操作系统，kuberentes 生命周期管理是 sealos 的一个重要功能，sealos 可以非常方便的安装/升级/伸缩/备份恢复集群等。接下来，让我们通过一个例子来看看 sealos 的强大。
 
 ## 如何使用
 
@@ -220,6 +219,6 @@ type CreateProcessor struct {
 
 ## 不仅仅如此...
 
-经过上文的介绍，可以看到 Sealos 本质上也可以认为是一个强大的 k8s 安装脚本。但未来的 Sealos 不仅仅如此，基于 Sealos 所开发的 sealos cloud 将会成为一个以 k8s 为内核的云操作系统，为更多应用的云原生之路带来更多便利。
+经过上文的介绍，可以看到 Sealos 对于 Kubernetes 生命周期管理有着非常好的抽象，而不只是个简单的安装脚本，你甚至可以扩展其它的 runtime 来支持 k3s k0s 等，而大部分定制化只需要修改集群镜像而不用修改 sealos 的源代码。不仅如此，sealos 还可以让你像使用 PC 操作系统一样用云，各种分布式软件信手拈来，真正让用云的门槛降到足够低。
 
 ![](/asset/sealos-ramp-up/1ef54cfebd1c76bc8ecfd9897f9f127107b6e555.png)
