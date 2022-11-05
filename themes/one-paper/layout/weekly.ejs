@@ -1,0 +1,24 @@
+<div class="archive-list">
+    <ul class="archive">
+        <% var currentYear = null; %>
+        <% site.tags.findOne({name: "weekly"}).posts.sort('date', -1).each(function (post) { %>
+            <li>
+                <% if (post.tags.data[1].name.length === 4) { %>
+                    <span style="font-weight:1000;font-size:24px"><%= post.tags.data[1].name %></span>
+                    <div class="archive-main" style="position: relative;">
+                        <a class="archive-title" href="<%- url_for(post.path) %>" style="position: absolute;top: 50%;transform: translate(0, -50%);">
+                            <%= post.title %>
+                        </a>
+                    </div>
+                <% } else {%>
+                    <span class="archive-date"><%= post.tags.data[1].name %></span>
+                    <div class="archive-main">
+                        <a class="archive-title" href="<%- url_for(post.path) %>">
+                            <%= post.title %>
+                        </a>
+                    </div>
+                <% } %>
+            </li>
+        <% }) %>
+    </ul>
+</div>

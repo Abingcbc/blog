@@ -7,7 +7,7 @@
         <script type="text/javascript" src="/js/wrapImage.js"></script>
         <div class="paper">
             <div class="paper-main">
-                <% if (is_post() || is_page()) { %>
+                <% if (is_post()) { %>
                     <%- partial('_partial/post-header') %>
                 <% } else { %>
                     <%- partial('_partial/header') %>
