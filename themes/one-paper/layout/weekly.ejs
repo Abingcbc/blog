@@ -2,7 +2,7 @@
     <ul class="archive">
         <% var currentYear = null; %>
         <% site.tags.findOne({name: "weekly"}).posts.sort('date', -1).each(function (post) { %>
-            <li>
+            <li style="padding: 12px;">
                 <% if (post.tags.data[1].name.length === 4) { %>
                     <span style="font-weight:1000;font-size:24px"><%= post.tags.data[1].name %></span>
                     <div class="archive-main" style="position: relative;">

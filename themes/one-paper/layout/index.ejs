@@ -7,7 +7,7 @@
                     <h2><%= date(post.date, "YYYY") %></h2>
                     <% currentYear = date(post.date, "YYYY")%>
                 <% } %>
-                <li>
+                <li style="padding: 12px;">
                     <span class="archive-date"><%= date(post.date, "YYYY.MM.DD") %></span>
                     <div class="archive-main">
                         <a class="archive-title" href="<%- url_for(post.path) %>"><%= post.title %></a>
