@@ -2,18 +2,9 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://blog.abingcbc.cn/2022/11/20/2022-02/</loc>
-    
-    <lastmod>2022-11-20</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://blog.abingcbc.cn/weekly/index.html</loc>
     
-    <lastmod>2022-11-20</lastmod>
+    <lastmod>2022-11-29</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -21,6 +12,24 @@
   
   <url>
     <loc>https://blog.abingcbc.cn/about/index.html</loc>
+    
+    <lastmod>2022-11-29</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.abingcbc.cn/2022/11/27/2022-03/</loc>
+    
+    <lastmod>2022-11-27</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.abingcbc.cn/2022/11/20/2022-02/</loc>
     
     <lastmod>2022-11-20</lastmod>
     
@@ -148,7 +157,7 @@
 
   <url>
     <loc>https://blog.abingcbc.cn/</loc>
-    <lastmod>2022-11-20</lastmod>
+    <lastmod>2022-11-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
