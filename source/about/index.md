@@ -17,9 +17,10 @@ title: ABOUT
 
 #### Misc
 
+- [个人周报](https://blog.abingcbc.cn/weekly/)
 - ISFP 懒狗
 - 尼康党
-- 原批
+- 原批（胡桃，甘雨，宵宫厨）
 - 轻度二次元 (巨人, 鬼灭, JoJo...)
 - 塞尔达YYDS
 
