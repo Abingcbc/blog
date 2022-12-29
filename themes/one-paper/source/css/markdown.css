@@ -162,10 +162,15 @@
     color: #f8f8f2;
     font-size: 1rem; */
     font-weight: 700;
+    font-family: "Sans Mono", "Consolas", "Courier", monospace;
 }
 
 .post-md .hljs-ln-numbers
 {
     opacity: .5;
     padding-right: 12px;
+}
+
+pre > code {
+    font-family: "Sans Mono", "Consolas", "Courier", monospace;
 }
