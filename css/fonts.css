@@ -2,6 +2,14 @@
 
 @font-face
 {
+    font-family: "LXGW";
+    font-style: normal;
+    src: local(""),
+        url("../fonts/LXGWWenKai-Regular.ttf") format('truetype');
+}
+
+@font-face
+{
     font-family: "Montserrat";
     font-style: normal;
     font-weight: 400;
