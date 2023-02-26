@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://blog.abingcbc.com/sitemap.xml
