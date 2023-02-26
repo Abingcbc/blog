@@ -41,6 +41,7 @@ dateFormat = "2006-01-02"
   #   { kickstarter = "https://www.kickstarter.com/profile/username" },
   #   { lastfm = "https://lastfm.com/user/username" },
     { linkedin = "https://www.linkedin.com/in/bingchang-chen-8b3812183/" },
+    { zhihu = "https://www.zhihu.com/people/llll-48-29"},
   #   { mastodon = "https://mastodon.instance/@username" },
   #   { medium = "https://medium.com/username" },
   #   { microsoft = "https://www.microsoft.com/" },
