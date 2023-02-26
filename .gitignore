@@ -1,5 +1,9 @@
-*/.DS_Store
+.DS_Store
 node_modules
 public
 db.json
 package-lock.json
+.vscode
+public
+.hugo_build.lock
+resources

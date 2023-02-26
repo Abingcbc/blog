@@ -1,29 +1,36 @@
-name: BlogCI
+# .github/workflows/gh-pages.yml
 
-on: [push]
+name: GitHub Pages
+
+on:
+  push:
+    branches:
+      - master
 
 jobs:
-  build:
+  build-deploy:
     runs-on: ubuntu-latest
-    name: A job to deploy blog.
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
     steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-      with:
-        submodules: true # Checkout private submodules(themes or something else).
-    # Deploy hexo blog website.
-    - name: Deploy
-      id: deploy
-      uses: Abingcbc/hexo-deploy-action@master
-      env:
-        DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
-        USER_NAME: Abingcbc
-        USER_EMAIL: 19990626.love@163.com
-        BRANCH: gh-pages
-        GIT_REPO: git@github.com:Abingcbc/blog.git
-        BAIDU_TOKEN: ${{ secrets.BAIDU_TOKEN }}
-        BING_TOKEN: ${{ secrets.BING_TOKEN }}
-        steps:
-    - name: Ping Google
-      run: curl https://www.google.com/ping?sitemap=https://blog.abingcbc.cn/sitemap.xml
-      
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+          fetch-depth: 0
+
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: "latest"
+
+      - name: Build
+        run: hugo --minify
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        if: ${{ github.ref == 'refs/heads/master' }}
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: ./public
