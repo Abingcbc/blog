@@ -21,5 +21,6 @@ showComments: false
 - ISFP
 - 尼康党
 - OP（胡桃，甘雨，宵宫）
+- 崩铁
 - 轻度二次元 (巨人, 鬼灭, JoJo...)
 - 塞尔达YYDS
