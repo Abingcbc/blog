@@ -7,7 +7,7 @@ showTableOfContents: false
 showWordCount: false
 showComments: false
 ---
-### 正在寻找2023年暑期实习 ❤️
+### 正在寻找2024届校招岗位 ❤️
 <hr>
 
 本科就读于同济大学软件学院，目前硕士就读于同济大学设计与创意学院人工智能与数据设计专业 <a href="https://idvxlab.com">IDvX 实验室</a>。
