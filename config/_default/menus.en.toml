@@ -25,10 +25,10 @@
 #   pageRef = "tags"
 #   weight = 30
 
-[[main]]
-  name = "Weekly"
-  pageRef = "weekly"
-  weight = 40
+# [[main]]
+#   name = "Weekly"
+#   pageRef = "weekly"
+#   weight = 40
 
 [[main]]
   name = "Photos"

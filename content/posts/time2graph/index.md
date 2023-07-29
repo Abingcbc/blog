@@ -7,7 +7,6 @@ tags:
   - Time Series
   - Deep Learning
 ---
-{{< katex >}}
 Shapelet [<sup>1</sup>](#shapelet) 是一种常见的对时序数据进行建模的方法之一。从 2009 年在 KDD 上发布第一篇论文以来，其经过了各式各样的变形和改进。Time2graph [<sup>2</sup>](#time2graph) 观察到 shapelet 具有 time-aware 的性质，因此提出了一种基于 shapelet 的时序数据的建模方法，将数据建模成图结构。
 
 ## What

@@ -6,7 +6,6 @@ categories:
 tags:
   - K8s
 ---
-{{< katex >}}
 ![title.png](./f6ce5cbedc6aa338007cd4633935ad371086271c.png)
 
 ## Sealos 是什么？
