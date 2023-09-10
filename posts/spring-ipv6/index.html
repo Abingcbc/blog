@@ -8,7 +8,7 @@
 </span></span><span class=line><span class=cl><span class=err>​</span>
 </span></span><span class=line><span class=cl>    <span class=nd>@GetMapping</span><span class=o>(</span><span class=n>value</span> <span class=o>=</span> <span class=s>&#34;/test&#34;</span><span class=o>)</span>
 </span></span><span class=line><span class=cl>    <span class=kd>public</span> <span class=kt>int</span> <span class=nf>getTest</span><span class=o>()</span> <span class=o>{</span>
-</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=mi>1</span><span class=o>;</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>1</span><span class=o>;</span>
 </span></span><span class=line><span class=cl>    <span class=o>}</span>
 </span></span><span class=line><span class=cl><span class=o>}</span>
 </span></span></code></pre></div><p>使用 Postman 进行测试，结果发现直接请求 http://localhost:8088/test 即 metadata-service 的地址，可以正常得到结果</p><p><figure><img class="mx-auto my-0 rounded-md" src=./1.jpg alt></figure></p><p>而通过网关，使用 Zuul 默认路由规则，调用服务，会出现 404 的错误</p><p><figure><img class="mx-auto my-0 rounded-md" src=./2.jpg alt></figure></p><h2 id=分析 class="relative group">分析 <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#%e5%88%86%e6%9e%90 aria-label=Anchor>#</a></span></h2><p>首先，我们可以先通过 http://localhost:8888 查看服务是否注册到了服务注册中心</p><p><figure><img class="mx-auto my-0 rounded-md" src=./3.jpg alt></figure></p><p>可以看到没有任何问题。
