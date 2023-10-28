@@ -1,7 +1,7 @@
-languageCode = "en"
-languageName = "English"
-displayName = "EN"
-isoCode = "en"
+languageCode = "zh-cn"
+languageName = "Chinese"
+displayName = "ZH-CN"
+isoCode = "zh-cn"
 weight = 1
 rtl = false
 
@@ -15,7 +15,7 @@ dateFormat = "2006-01-02"
   # mainSections = ["section1", "section2"]
 
 [author]
-  name = "Bingchang Chen"
+  name = "阿柄"
   # image = "img/author.jpg"
   # headline = "I'm only human"
   # bio = "A little bit about you"

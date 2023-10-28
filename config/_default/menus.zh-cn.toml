@@ -11,7 +11,7 @@
 # ordered by weight from lowest to highest.
 
 [[main]]
-  name = "Posts"
+  name = "文章"
   pageRef = "posts"
   weight = 10
 
@@ -31,7 +31,7 @@
 #   weight = 40
 
 [[main]]
-  name = "Photos"
+  name = "摄影"
   url = "https://abingcbc.github.io/photo-gallery"
   weight = 45
 
