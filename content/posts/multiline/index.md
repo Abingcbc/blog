@@ -1,5 +1,5 @@
 ---
-title: "多行日志处理能力对比——Filebeat, Fluent Bit, Vector"
+title: "常见日志采集器多行日志处理能力对比"
 date: 2023-05-12 21:00:00+0800
 categories:
   - Observability
@@ -34,7 +34,7 @@ tags:
 
 ### 文档
 
-链接：[https://www.elastic.co/guide/en/beats/filebeat/current/multiline-examples.html](https://www.elastic.co/guide/en/beats/filebeat/current/multiline-examples.html)
+**链接：** [https://www.elastic.co/guide/en/beats/filebeat/current/multiline-examples.html](https://www.elastic.co/guide/en/beats/filebeat/current/multiline-examples.html)
 
 **支持功能：**
 
@@ -71,7 +71,7 @@ Exception in thread "main" java.lang.NullPointerException
         at com.example.myproject.Bootstrap.main(Bootstrap.java:14)
 ```
 
-**解释：**这里pattern匹配的是前面带有空格的行，因此，多行的开始`Exception`属于不匹配行。由于 negate 为 false，所以作为 event 的主体。后续匹配的`at`会聚合成一个事件。
+**解释：** 这里pattern匹配的是前面带有空格的行，因此，多行的开始`Exception`属于不匹配行。由于 negate 为 false，所以作为 event 的主体。后续匹配的`at`会聚合成一个事件。
 
 ### 实现
 
@@ -158,7 +158,7 @@ Dec 14 06:41:08 Exception in thread "main" java.lang.RuntimeException: Something
     at com.myproject.module.MyProject.main(MyProject.java:6)
 ```
 
-**解释：**start_state 是以时间格式的正则匹配的，匹配到后，进入第二条 rule（以at开头）。然后不断匹配，直到遇到某一行可以被 start_state 所匹配。
+**解释：** start_state 是以时间格式的正则匹配的，匹配到后，进入第二条 rule（以at开头）。然后不断匹配，直到遇到某一行可以被 start_state 所匹配。
 
 ### 实现
 
@@ -216,7 +216,7 @@ foobar.rb:6:in `/': divided by 0 (ZeroDivisionError)
 
 ### 实现
 
-**链接：**[https://github.com/vectordotdev/vector/blob/master/src/line_agg.rs](https://github.com/vectordotdev/vector/blob/master/src/line_agg.rs)
+**链接：** [https://github.com/vectordotdev/vector/blob/master/src/line_agg.rs](https://github.com/vectordotdev/vector/blob/master/src/line_agg.rs)
 
 ![Untitled](./Untitled%203.png)
 
