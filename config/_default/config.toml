@@ -11,3 +11,7 @@ summaryLength = 0
 
 [outputs]
   home = ["HTML", "RSS", "JSON"]
+
+[security]
+  [security.funcs]
+    getenv = ['^HUGO_', '^WC_']
