@@ -1,1 +1,101 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Nginx on Abing's Blog</title><link>https://blog.abingcbc.cn/tags/nginx/</link><description>Recent content in Nginx on Abing's Blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sat, 13 Mar 2021 12:27:49 +0000</lastBuildDate><atom:link href="https://blog.abingcbc.cn/tags/nginx/index.xml" rel="self" type="application/rss+xml"/><item><title>Kubernetes Ingress Nginx DNS 报错日志 Bug Fix</title><link>https://blog.abingcbc.cn/posts/ingress-nginx-bug-fix/</link><pubDate>Sat, 13 Mar 2021 12:27:49 +0000</pubDate><guid>https://blog.abingcbc.cn/posts/ingress-nginx-bug-fix/</guid><description>问题 # 目前，当指定访问集群外部地址为 IP 时，ingress-nginx controller 的日志中存在大量的 DNS 报错的垃圾日志。虽然不影响正常运行（猜测可能会导致性能波动，对比见最后），但是查看 Nginx 日志 debug 时效率严重降低。</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Nginx | Abing's Blog</title><link>https://blog.abingcbc.cn/tags/nginx/</link><atom:link href="https://blog.abingcbc.cn/tags/nginx/index.xml" rel="self" type="application/rss+xml"/><description>Nginx</description><generator>Hugo Blox Builder (https://hugoblox.com)</generator><language>zh-cn</language><lastBuildDate>Sat, 13 Mar 2021 12:27:49 +0000</lastBuildDate><item><title>Kubernetes Ingress Nginx DNS 报错日志 Bug Fix</title><link>https://blog.abingcbc.cn/posts/ingress-nginx-bug-fix/</link><pubDate>Sat, 13 Mar 2021 12:27:49 +0000</pubDate><guid>https://blog.abingcbc.cn/posts/ingress-nginx-bug-fix/</guid><description>&lt;h2 id="问题" class="relative group">问题 &lt;span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100">&lt;a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e9%97%ae%e9%a2%98" aria-label="锚点">#&lt;/a>&lt;/span>&lt;/h2>
+&lt;p>目前，当指定访问集群外部地址为 IP 时，ingress-nginx controller 的日志中存在大量的 DNS 报错的垃圾日志。虽然不影响正常运行（猜测可能会导致性能波动，对比见最后），但是查看 Nginx 日志 debug 时效率严重降低。&lt;/p>
+&lt;p>
+&lt;figure>
+&lt;img class="mx-auto my-0 rounded-md" src="./error.png" alt="" />
+&lt;/figure>
+&lt;/p>
+&lt;h2 id="原因" class="relative group">原因 &lt;span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100">&lt;a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%8e%9f%e5%9b%a0" aria-label="锚点">#&lt;/a>&lt;/span>&lt;/h2>
+&lt;p>详细的讨论见：
+&lt;a
+href="https://github.com/coredns/coredns/issues/2324"
+target="_blank" rel="noreferrer noopener"
+>https://github.com/coredns/coredns/issues/2324&lt;/a>&lt;/p>
+&lt;p>简略总结下，导致访问外部 IP，Nginx 报 DNS 解析错误的原因在于 Kubernetes 自身的bug，缺少了一个验证。&lt;/p>
+&lt;p>出现问题的情况是通过 ExternalName 类型的 Service 访问外部服务的。定义的 yaml 类似于下面这种：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Service&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">v1&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">metadata&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">demo2&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">namespace&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">default&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">spec&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">type&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">ExternalName&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">externalName&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">xxx.xxx.xxx.xxx&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>对于 Kubernetes 的设计来说，ExternalName 就是一个域名。K8s 官方是这样介绍的&lt;/p>
+&lt;blockquote>
+&lt;p>ExternalName: Maps the service to the contents of the externalName field (e.g. foo.bar.example.com), by returning aCNAMErecord with its value. No proxying of any kind is set up.&lt;/p>
+&lt;/blockquote>
+&lt;blockquote>
+&lt;p>Note:ExternalName accepts an IPv4 address string, but as a DNS names comprised of digits, not as an IP address. ExternalNames that resemble IPv4 addresses are not resolved by CoreDNS or ingress-nginx because ExternalName is intended to specify a canonical DNS name.&lt;/p>
+&lt;/blockquote>
+&lt;p>从实现上来看，ExternalName 类型的 Service 其实就是在 CoreDNS 里的一条 CNAME 记录。 CNAME 是一条域名指向另一个域名的记录，在 K8s 中，这条 record 记载的就是 Service 名字指向 ExtenalName 的一个映射。&lt;/p>
+&lt;p>但是，当 ExternalName 类型的 Service 中设定的是 IP 时，K8s 并没有对其进行判断，仍然允许其正常创建。&lt;/p>
+&lt;p>同时，Nginx 本身存在着一个轮询机制，会不断的向 DNS 服务拉取记录进行缓存。
+&lt;a
+href="https://github.com/kubernetes/ingress-nginx/blob/master/rootfs/etc/nginx/lua/util/dns.lua"
+target="_blank" rel="noreferrer noopener"
+>https://github.com/kubernetes/ingress-nginx/blob/master/rootfs/etc/nginx/lua/util/dns.lua&lt;/a>&lt;/p>
+&lt;p>在每次拉取缓存时会发生以下的过程：&lt;/p>
+&lt;ol>
+&lt;li>Nginx 从 CoreDNS 拉取到了一个 CNAME 记录，例如：demo2 -&amp;gt; xxx.xxx.xxx.xxx&lt;/li>
+&lt;li>接着，Nginx 尝试解析 xxx.xxx.xxx.xxx 这个域名，CoreDNS 自然是对这个长成 IP 样子的域名解析不出来的，于是解析失败，导致报错&lt;/li>
+&lt;/ol>
+&lt;hr>
+&lt;p>至于为什么 DNS 解析失败之后，Nginx 仍然能够成功转发请求，原因是 ingress-nginx controller 在实现上并没有对这个进行区分。&lt;/p>
+&lt;p>首先，先简单介绍下 controller 的原理。Ingress-nginx controller 一直监听着 k8s 系统中的 ingress 资源。当有新的 ingress 创建时，controller 会开始更新 Nginx 的配置文件，向其中添加转发规则，并重启 Nginx。&lt;/p>
+&lt;p>下面是 controller 解析指向 ExternalName 的 ingress，然后创建 upstream 的逻辑
+&lt;a
+href="https://github.com/kubernetes/ingress-nginx/blob/5f1a37a624ca38e8cccc87cb7a36d7dbcbe70b01/internal/ingress/controller/endpoints.go#L52"
+target="_blank" rel="noreferrer noopener"
+>https://github.com/kubernetes/ingress-nginx/blob/5f1a37a624ca38e8cccc87cb7a36d7dbcbe70b01/internal/ingress/controller/endpoints.go#L52&lt;/a>&lt;/p>
+&lt;p>
+&lt;figure>
+&lt;img class="mx-auto my-0 rounded-md" src="./nginx-code.png" alt="" />
+&lt;/figure>
+&lt;/p>
+&lt;p>可以看到，controller 是没有强制解析 ExternalName 成域名的，所以写进 nginx.conf 的 upstream 也是 ip 形式，这样 nginx 会自然地将 ExternalName 解析成 IP，从而可以正常工作。&lt;/p>
+&lt;h2 id="解决方法" class="relative group">解决方法 &lt;span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100">&lt;a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e8%a7%a3%e5%86%b3%e6%96%b9%e6%b3%95" aria-label="锚点">#&lt;/a>&lt;/span>&lt;/h2>
+&lt;p>在上面提到的 Github Issue 的讨论中，有大佬已经给出了解决方法，就是通过 Service without selectors 的方式。
+&lt;a
+href="https://kubernetes.io/docs/concepts/services-networking/service/#services-without-selectors"
+target="_blank" rel="noreferrer noopener"
+>https://kubernetes.io/docs/concepts/services-networking/service/#services-without-selectors&lt;/a>&lt;/p>
+&lt;p>常见的 K8s Service 都是通过标签选择器，选择一系列 Pod 作为后端，K8s endpoint controller 会自动根据 Service 的声明去为 Service 的每个端口创建一个 endpoint。Endpoint 是 K8s 中实际进行服务路由的资源。&lt;/p>
+&lt;p>而创建 Service without selectors，就需要我们手动去创建一个与 Service 同名的 endpoint。这样就不需要指定 Service 为 ExternalName 的类型，CoreDNS 中就会将其视作一条 A 记录，而不是一条 CNAME 记录。Nginx 拉取 DNS 缓存时也不会把 IP 当做域名了。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">v1&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Service&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">metadata&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">demo2&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">namespace&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">default&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">spec&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">clusterIP&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">None&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">ports&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">grpc&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">port&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="m">32443&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">protocol&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">TCP&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nn">---&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Endpoints&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">v1&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">metadata&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">demo2&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">namespace&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">default&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">subsets&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">addresses&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">ip&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">xxx.xxx.xxx.xxx&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">ports&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">port&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="m">32443&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">grpc&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">protocol&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">TCP&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="对比" class="relative group">对比 &lt;span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100">&lt;a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#%e5%af%b9%e6%af%94" aria-label="锚点">#&lt;/a>&lt;/span>&lt;/h2>
+&lt;p>在两个对等的集群发生通信时，demo1 修复，demo2不修复，对比两侧的 CPU 使用情况&lt;/p>
+&lt;p>demo1：
+&lt;figure>
+&lt;img class="mx-auto my-0 rounded-md" src="./demo1.png" alt="" />
+&lt;/figure>
+&lt;/p>
+&lt;p>demo2：
+&lt;figure>
+&lt;img class="mx-auto my-0 rounded-md" src="./demo2.png" alt="" />
+&lt;/figure>
+&lt;/p>
+&lt;p>demo2 大约比 demo1 消耗 CPU 多 0.020 个核。虽然这个报错会稍微增加一点 CPU 的使用量，但并不多。&lt;/p></description></item></channel></rss>
