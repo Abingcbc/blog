@@ -1,11 +1,2 @@
 [[imports]]
 path = "github.com/jpanther/congo/v2"
-
-[[imports]]
-path = "github.com/HugoBlox/hugo-blox-builder/modules/blox-plugin-netlify"
-
-[[imports]]
-path = "github.com/HugoBlox/hugo-blox-builder/modules/blox-plugin-reveal"
-
-[[imports]]
-path = "github.com/HugoBlox/hugo-blox-builder/modules/blox-bootstrap/v5"
