@@ -1,0 +1,13 @@
+@font-face {
+    font-family: "LXGW";
+    src: url("/LXGWWenKaiLite-Regular.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Inconsolata";
+    src: url("/Inconsolata.ttf") format("truetype");
+}
+
+html {
+    font-family: LXGW, Inconsolata, serif;
+}
